@@ -1,5 +1,5 @@
 # Sai's Sheets
-![SS](https://github.com/JulianBOrtega/SS-Sheets/blob/master/public/icon_big.png)
+![SS](https://github.com/JulianBOrtega/SS-Sheets/blob/master/public/ss_banner.png)
 A sheet extension made for a custom game of Dungeon World, in owlbear rodeo.
 
 ## Features
