@@ -1,9 +1,10 @@
 # Sai's Sheets
 ![SS](https://github.com/JulianBOrtega/SS-Sheets/blob/master/public/ss_banner.png)
+
 A sheet extension made for a custom game of Dungeon World, in owlbear rodeo.
 
 ## Features
-- Allow players to fill their character sheet and use 2d10 dices (instead of the standard) for stats rolls.
+- Allows players to fill their character sheet and use 2d10 dices (instead of the standard) for stats rolls.
 - Equipment management, usage and equip functionalities.
 - Bonds.
 - Chat window with options for dice rolling, whisper DM and character selection.
