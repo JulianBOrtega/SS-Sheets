@@ -1,0 +1,13 @@
+{
+    "name": "Sai's Sheets",
+    "icon": "/icon2.png",
+    "version": "1.0.0",
+    "manifest_version": 1,
+    "action": {
+      "title": "Sheets",
+      "icon": "/icon.png",
+      "popover": "/",
+      "height": 600,
+      "width": 400
+    }
+}
