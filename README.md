@@ -1,5 +1,5 @@
-# React + TypeScript + Vite
-
+# Sai's Sheets
+![SS](https://github.com/JulianBOrtega/SS-Sheets/blob/master/public/icon_big.png)
 A sheet extension made for a custom game of Dungeon World, in owlbear rodeo.
 
 ## Features
