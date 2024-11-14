@@ -5,8 +5,14 @@ import { AppRoutes } from './routes/AppRoutes'
 import CssBaseline from '@mui/joy/CssBaseline';
 import DataProvider from './context/DataContext'
 import './App.css'
+import { useEffect, useRef } from 'react';
 
 function App() {
+  const url = useRef(import.meta.env.VITE_API_URL);
+  useEffect(() => {  
+    console.log('BACKEND URL', url.current);
+  }, []);
+
   return (
     <CssVarsProvider defaultMode='dark'>
       <CssBaseline />
