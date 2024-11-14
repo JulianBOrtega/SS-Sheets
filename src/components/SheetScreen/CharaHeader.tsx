@@ -7,19 +7,24 @@ import { ValueBar } from '../shared/ValueBar';
 import sword from '../../assets/img/sword-icon.png';
 import shield from '../../assets/img/shield-icon.png';
 import Button from '@mui/joy/Button';
+import { DiceRoll } from '@dice-roller/rpg-dice-roller';
+import { getMaxExp, getMaxHp } from '../../utility/sheetCalc';
+import { SheetFieldSelector } from '../shared/SheetFieldSelector';
+import { getClass, getClassOptions } from '../../utility/hardcoded';
 
 export interface CharaHeaderProps {
   data: ICharacter,
   editable: boolean,
   notifyChange: () => void,
-  setEditable: (value: boolean) => void
+  setEditable: (value: boolean) => void,
+  sendStatRoll: (msg: string, roll: string ) => void,
 }
 
-export const CharaHeader = ({data, notifyChange, editable, setEditable}: CharaHeaderProps) => {
+export const CharaHeader = ({data, notifyChange, editable, setEditable, sendStatRoll}: CharaHeaderProps) => {
   const handleEdit = () => {
     setEditable(!editable);
   }
-
+  
   const handleBlur = <K extends keyof ICharacter>(
     field: K, newValue: ICharacter[K]
   ) => {
@@ -29,6 +34,13 @@ export const CharaHeader = ({data, notifyChange, editable, setEditable}: CharaHe
     notifyChange();
   }
 
+
+  const sendDamageRoll = () => {
+    if(!data.damageDice || !data.damageDice.includes('d') || data.damageDice[data.damageDice.length - 1] == 'd') return;
+
+    const roll = new DiceRoll(data.damageDice);
+    sendStatRoll(`${data.name} causa daño!`, roll.toString());
+  }
   return (
     <div className="charaHeader">
       {/* Character Image */}
@@ -60,7 +72,7 @@ export const CharaHeader = ({data, notifyChange, editable, setEditable}: CharaHe
             {data.race}
           </SheetField>
           
-          <SheetField
+          {/* <SheetField
             editable={editable}
             textClass={'charaHeaderSmallSheetField'}
             inputClass={'charaHeaderSmallSheetFieldEditable'}
@@ -69,7 +81,19 @@ export const CharaHeader = ({data, notifyChange, editable, setEditable}: CharaHe
             inputType='text'
           >
             {data.classId}
-          </SheetField>
+          </SheetField> */}
+          
+          <SheetFieldSelector
+            defaultValue={data.classId}
+            options={getClassOptions()}
+            editable={editable}
+            textClass={'charaHeaderSmallSheetField'}
+            inputClass={'charaHeaderClassFieldEditable'}
+            onChange={(value) => handleBlur('classId', value)}
+            placeholder={'Clase'}
+          >
+            {getClass(data.classId)?.name || 'class not found'}
+          </SheetFieldSelector>
           
           <p style={{cursor: 'default'}}>Lv. </p>
 
@@ -77,7 +101,7 @@ export const CharaHeader = ({data, notifyChange, editable, setEditable}: CharaHe
             editable={editable}
             textClass={'charaHeaderSmallSheetField'}
             inputClass={'charaHeaderSmallSheetFieldEditable'}
-            onChange={(value) => handleBlur('level', value)}
+            onChange={(value) => handleBlur('level', +value)}
             placeholder={'Nivel'}
             inputType='number'
           >
@@ -91,20 +115,20 @@ export const CharaHeader = ({data, notifyChange, editable, setEditable}: CharaHe
           <div className="charaHeaderBars">
             <ValueBar 
               value={data.hp}
-              maxValue={16}
+              maxValue={getMaxHp(data)}
               suffix='HP'
               barcolor='#730A0A'
               backgroundColor='rgba(125,125,125)'
-              onSet={(value) => handleBlur('hp', value)}
+              onSet={(value) => handleBlur('hp', +value)}
               editable={editable}
             />
             <ValueBar 
               value={data.exp}
-              maxValue={12}
+              maxValue={getMaxExp(data.level)}
               suffix='EXP'
               barcolor='#78631F'
               backgroundColor='rgba(125,125,125)'
-              onSet={(value) => handleBlur('exp', value)}
+              onSet={(value) => handleBlur('exp', +value)}
               editable={editable}
             />
           </div>
@@ -135,7 +159,10 @@ export const CharaHeader = ({data, notifyChange, editable, setEditable}: CharaHe
             placeholder='Daño'
             inputType='text'
           >
-            <div className="charaHeaderShieldSwordContainer">
+            <div 
+              className="charaHeaderShieldSwordContainer"
+              onClick={sendDamageRoll}
+            >
               <img src={sword} 
                 alt="sword-dmgdice" 
                 width={50}

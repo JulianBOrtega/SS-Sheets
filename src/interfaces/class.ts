@@ -1,5 +1,6 @@
 export interface ICharacterClass {
-    id: string,
+    id: number,
     name: string,
-    spellLists: number[]
+    baseHP: number,
+    damagedice: string,
 }

@@ -1,12 +1,13 @@
 import { ICharacter } from '../interfaces/character';
 import { IChatMsg } from '../interfaces/chat';
+import { getMaxExp, getMaxHp } from './sheetCalc';
 
 export const getDefaultCharacter = (userId: string): ICharacter => ({
     id: null,
     userId: userId,
     name: 'Introducir nombre',
     race: 'Raza',
-    classId: 'noClass',
+    classId: 1,
     level: 1,
     exp: 0,
     hp: 6,

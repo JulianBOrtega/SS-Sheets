@@ -1,0 +1,70 @@
+.chatMsg-container {
+    
+}
+
+.chatMsg-msg {
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.chatMsg-roll {
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: solid 1px rgb(58, 58, 58);
+    border-top: solid 1px rgb(58, 58, 58);
+}
+
+.chatMsg-character {
+    font-weight: 600;
+}
+
+.chatMsg-msgChat {
+    font-size: 14px;
+}
+
+.chatMsg-msgRoll {
+    color: gray;
+}
+
+.chatMsg-rollResultContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+    text-align: center;
+    padding: 3px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.chatMsg-rollResultCard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.chatMsg-rollResultFull {
+    border: solid 2px gray;
+    padding: 5px 10px;
+    border-radius: 25px;   
+}
+
+.chatMsg-rollResultSummary {
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+}

@@ -3,6 +3,9 @@
     flex-direction: column;
     width: 100%;
     gap: 8px;
+    position: sticky;
+    bottom: 0;
+    background: black;
 }
 
 .headerContainer {

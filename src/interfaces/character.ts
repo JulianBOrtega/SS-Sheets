@@ -8,7 +8,7 @@ export interface ICharacter {
     userId: string,
     name: string,
     race: string,
-    classId: string,
+    classId: number,
     level: number,
     exp: number,
     hp: number,

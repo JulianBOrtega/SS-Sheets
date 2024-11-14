@@ -12,7 +12,7 @@ export interface ValueBarProps {
     barcolor?: string,
     textColor?: string,
     suffix?: string,
-    onSet?: (value: number) => void
+    onSet?: (value: number) => void,
 }
 
 export const ValueBar = (pr: ValueBarProps) => {
@@ -29,6 +29,18 @@ export const ValueBar = (pr: ValueBarProps) => {
 
     //? States
     const [change, setChange] = useState<number>(0);
+
+    const handleSubstraction = () => {
+        if(true || pr.value + change - 1 < 0) return;
+
+        setChange(change - 1)
+    }
+
+    const handleAddition = () => {
+        if (true || pr.value + change + 1 > pr.maxValue) return;
+
+        setChange(change + 1)
+    }
 
     useEffect(() => {
         if(!pr.onSet || change == 0) return;
@@ -95,10 +107,10 @@ export const ValueBar = (pr: ValueBarProps) => {
                 marginLeft: 5,
                 marginRight: 5
             }}>
-                <p onClick={() => setChange(change - 1)}
+                <p onClick={handleSubstraction}
                     style={{
-                        color: textColor,
-                        cursor: pr.onSet ? 'pointer' : 'text',
+                        color: (false && pr.value > 0) ? textColor : 'transparent',
+                        cursor: (false && pr.value > 0) ? (pr.onSet ? 'pointer' : 'text') : 'default',
                         userSelect: 'none'
                     }}
                 >-</p>
@@ -110,10 +122,10 @@ export const ValueBar = (pr: ValueBarProps) => {
                     }}
                 >{pr.value}/{pr.maxValue}  {pr.suffix}</p>
                 
-                <p onClick={() => setChange(change + 1)}
+                <p onClick={handleAddition}
                     style={{
-                        color: textColor,
-                        cursor: pr.onSet ? 'pointer' : 'text',
+                        color: (false && pr.value < pr.maxValue) ? textColor : 'transparent',
+                        cursor: (false && pr.value < pr.maxValue) ? (pr.onSet ? 'pointer' : 'text') : 'default',
                         userSelect: 'none'
                     }}
                 >+</p>

@@ -17,6 +17,7 @@ import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import ModalClose from '@mui/joy/ModalClose';
 import Typography from '@mui/joy/Typography';
+import { generateChatMsg } from '../utility/objTemplates';
 
 export const SheetScreen = (props: any) => {
   const { loading, dataManagement, broadcast } = useContext<IDataContext>(DataContext);
@@ -60,6 +61,25 @@ export const SheetScreen = (props: any) => {
     setDeleteModal(false);
     setRedirect(true);
   }
+
+  const sendRoll = (msg: string, roll: string) => {
+      if(loading || !dataManagement || !dataManagement.user || !charaFetch.character || !charaFetch.character.id) return;
+      
+      const campaign = dataManagement.roomId;
+      const userId = dataManagement.user.id;
+      const charaId = charaFetch.character.id;
+      const chatRoll = generateChatMsg(userId, charaId, msg, false, roll);
+      const fetchOps = {
+          method: 'POST', body: JSON.stringify(chatRoll),
+          headers: {
+              'Content-type': 'application/json'
+          }
+      };
+
+      fetch(`${url.current}chats/${campaign}`, fetchOps)
+      .then(res => res.json()).then(data => broadcast.update('chats'))
+      .catch(err => console.log('ERROR at adding new chat', err));
+  };
 
   useEffect(() => {
     if(changeCounter == 0) return;
@@ -110,11 +130,13 @@ export const SheetScreen = (props: any) => {
                 notifyChange={() => setChangeCounter(changeCounter+1)}
                 editable={editable}
                 setEditable={setEditable}
+                sendStatRoll={sendRoll}
               />
               <Stats 
                 data={charaFetch.character}
                 editable={editable}
                 notifyChange={() => setChangeCounter(changeCounter+1)}
+                sendStatRoll={sendRoll}
               />
               {/* <Inventory /> */}
               {/* <Bonds /> */}
