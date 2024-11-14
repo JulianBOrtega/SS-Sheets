@@ -11,6 +11,7 @@ function App() {
   const url = useRef(import.meta.env.VITE_API_URL);
   useEffect(() => {  
     console.log('BACKEND URL', url.current);
+    console.log('IMPORT.META.ENV', import.meta.env)
   }, []);
 
   return (
