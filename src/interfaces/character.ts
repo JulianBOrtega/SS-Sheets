@@ -1,9 +1,14 @@
+export interface ICampaignCharacters {
+    campaignId: string,
+    characters: ICharacter[]
+}
+
 export interface ICharacter {
-    id: number,
-    userId: number,
+    id: string | null,
+    userId: string,
     name: string,
     race: string,
-    classId: number,
+    classId: string,
     level: number,
     exp: number,
     hp: number,
@@ -12,13 +17,14 @@ export interface ICharacter {
     stats: IStats,
     inventory: ICharacterItem[],
     bonds: IBond[],
+    tempArmor: number,
     imgPath?: string,
 
-    //? Not saved in json
-    getArmor: () => number,
+    //? Move to Utility file
+    /* getArmor: () => number,
     getMaxHp: () => number,
     getMaxExp: () => number,
-    getMaxWeight: () => number,
+    getMaxWeight: () => number, */
 
 }
 
@@ -30,18 +36,19 @@ export interface IStats {
     wis: number,
     cha: number,
     
-    //? Not saved in json
-    getStatMod: (stat: 'STR' | 'DEX' | 'CON' | 'INT' | 'WIS' | 'CHA') => number,
+    //? Move to Utility file
+    /* getStatMod: (stat: 'STR' | 'DEX' | 'CON' | 'INT' | 'WIS' | 'CHA') => number, */
 }
 
 export interface ICharacterItem {
-    itemId: 0,
+    itemId: string,
     equipped: boolean,
     amount: number,
 }
 
 export interface IBond {
-    characterId: number,
+    id: string,
+    characterId: string,
     bond: number,
     notes: string
 }

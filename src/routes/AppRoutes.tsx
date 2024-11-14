@@ -10,11 +10,15 @@ export const AppRoutes = () => {
   const { loading } = useContext<IDataContext>(DataContext)
 
   return !loading && (
-    <Routes>
-      <Route path='/' element={<ChatScreen />}/>
-      <Route path='/Sheets/:id' element={<SheetScreen />}/>
-      <Route path='/Logs' element={<LogScreen />}/>
-      <Route path='/Settings' element={<SettingsScreen />}/>
-    </Routes>
+    <div style={{
+      width: '100%',
+    }}>
+      <Routes>
+        <Route path='/' element={<ChatScreen />}/>
+        <Route path='/Sheets/:id' element={<SheetScreen />}/>
+        <Route path='/Logs' element={<LogScreen />}/>
+        <Route path='/Settings' element={<SettingsScreen />}/>
+      </Routes>
+    </div>
   )
 }

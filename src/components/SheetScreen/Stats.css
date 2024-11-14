@@ -1,0 +1,13 @@
+.fichaDivider {
+    border-color: rgba(100, 100, 100, 0.5);
+    margin-top: 10px; 
+    margin-bottom: 20px;
+}
+
+.statsDices {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    
+    margin-bottom: 20px;
+}

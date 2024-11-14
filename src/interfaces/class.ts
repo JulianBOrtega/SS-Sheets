@@ -1,5 +1,5 @@
 export interface ICharacterClass {
-    id: number,
+    id: string,
     name: string,
     spellLists: number[]
 }

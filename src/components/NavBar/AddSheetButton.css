@@ -1,0 +1,13 @@
+.addSheetButtonIcon {
+    opacity: 0.6;
+    transition: opacity 300ms ease;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.addSheetButtonIcon:hover {
+    opacity: 1;
+}
+.addSheetButtonIcon:active {
+    opacity: 0;
+}

@@ -1,5 +1,5 @@
 export interface ISpell {
-    id: number,
+    id: string,
     name: string,
     description: string,
     extraDescription: string,
@@ -7,6 +7,6 @@ export interface ISpell {
 }
 
 export interface ISpellList {
-    id: number,
+    id: string,
     spells: ISpell[]
 }

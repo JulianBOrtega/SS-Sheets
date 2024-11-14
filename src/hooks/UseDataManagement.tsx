@@ -1,20 +1,31 @@
 import OBR from '@owlbear-rodeo/sdk';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { IUser } from '../interfaces/user';
+import { ICampaignCharacters, ICharacter } from '../interfaces/character';
+import { ICampaign } from '../interfaces/campaign';
+import { UseFetchAll } from './UseFetchAll';
+import { IChat, IChatMsg } from '../interfaces/chat';
 
 export interface IDataManagement {
   loading: boolean,
-  roomId: string,
+  roomId?: string,
   user?: IUser,
-
-  counter: number,
-  setCounter: (value: number) => void
+  campaign?: ICampaign,
+  characters?: ICharacter[],
+  chats?: IChatMsg[],
+  refetch: {
+    all: () => void,
+    campaign: () => void,
+    characters: () => void,
+    chats: () => void,
+  }
 }
 
 export const UseDataManagement = (ready: boolean): IDataManagement => {
   const [loading, setLoading] = useState(true);
-  const [roomId, setRoomId] = useState<string>('-1');
+  const [roomId, setRoomId] = useState<string>();
   const [user, setUser] = useState<IUser>();
+  const allData = UseFetchAll(roomId);
 
   const updatePlayerData = () => {
     Promise.all([
@@ -47,21 +58,11 @@ export const UseDataManagement = (ready: boolean): IDataManagement => {
 
   }, [ready]);
 
-
-  //TODO test backend and synchronization
-  const [counter, setCounter] = useState(0);
-
-  const updateCounter = (value: number) => {
-    setCounter(value);
-    
-  }
-
   return {
     loading,
     roomId,
     user,
 
-    counter,
-    setCounter
+    ...allData
   }
 }

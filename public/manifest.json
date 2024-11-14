@@ -7,7 +7,7 @@
       "title": "Sheets",
       "icon": "/icon.png",
       "popover": "/",
-      "height": 600,
-      "width": 400
+      "width": 600,
+      "height": 1000
     }
 }
