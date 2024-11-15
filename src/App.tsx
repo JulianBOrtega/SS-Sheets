@@ -18,7 +18,7 @@ function App() {
     <CssVarsProvider defaultMode='dark'>
       <CssBaseline />
 
-      <DataProvider>
+      {/* <DataProvider>
         <BrowserRouter>
         <div className="bg">
           <div className="app">
@@ -27,7 +27,8 @@ function App() {
           </div>
         </div>
         </BrowserRouter>
-      </DataProvider>
+      </DataProvider> */}
+      <p>test</p>
     </CssVarsProvider>
   )
 }
