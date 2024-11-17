@@ -5,27 +5,23 @@ import { AppRoutes } from './routes/AppRoutes'
 import CssBaseline from '@mui/joy/CssBaseline';
 import DataProvider from './context/DataContext'
 import './App.css'
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 
 function App() {
-  const url = useRef(import.meta.env.VITE_API_URL);
-  useEffect(() => {  
-    console.log('BACKEND URL', url.current);
-    console.log('IMPORT.META.ENV', import.meta.env)
-  }, []);
-
   return (
     <CssVarsProvider defaultMode='dark'>
       <CssBaseline />
 
       <DataProvider>
         <BrowserRouter>
-        <div className="bg">
-          <div className="app">
+          <div className="app" style={{
+            width: '100vw',
+            height: '100vh',
+            display: 'flex',
+          }}>
             <Navbar />
             <AppRoutes />
           </div>
-        </div>
         </BrowserRouter>
       </DataProvider>
     </CssVarsProvider>

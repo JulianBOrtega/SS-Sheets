@@ -11,7 +11,8 @@ export const AppRoutes = () => {
 
   return !loading && (
     <div style={{
-      width: '100%',
+      width: 'calc(100% - 60px)',
+      height: '100%',
     }}>
       <Routes>
         <Route path='/' element={<ChatScreen />}/>

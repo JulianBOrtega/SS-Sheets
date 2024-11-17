@@ -1,15 +1,49 @@
-export const getSuccessLevel = (diceResult: string) => {
-    const result = +(diceResult.split('= ')[1]);
+import { DiceRoll } from "@dice-roller/rpg-dice-roller";
 
-    if(result <= 9) return 'Fallo'
-    else if (result < 16) return 'Exito parcial'
-    else return 'Exito!'
+//? -F = Fallo crítico
+//? F = Fallo
+//? N = Exito parcial
+//? E = Exito
+//? E = Exito crítico
+export type SuccessLevel = '-F' | 'F' | 'N' | 'E' | '+E';
+
+export const getSuccessLevel = (roll: DiceRoll): SuccessLevel => {
+    const total = roll.total;
+    const mod = roll.rolls[2];
+
+    if(total > 18) return '+E';
+    else if (total > 15) return 'E';
+    else if (total > 9) return 'N';
+    else if (total > 2) return 'F';
+    else return '-F';
 }
 
-export const getSuccessColor = (diceResult: string) => {
-    const r = getSuccessLevel(diceResult);
+export const getSuccessColor = (successLevel: SuccessLevel) => {
+    if(successLevel == '+E') return 'orange';
+    else if (successLevel == 'E') return 'green';
+    else if (successLevel == 'N') return 'white';
+    else if (successLevel == 'F') return 'gray';
+    else return 'red'
+}
 
-    if(r == 'Fallo') return 'red'
-    else if (r == 'Exito parcial') return 'white'
-    else return 'green'
+export const getSuccessLabel = (successLevel: SuccessLevel) => {
+    if(successLevel == '+E') return 'Éxito crítico!';
+    else if (successLevel == 'E') return 'Éxito';
+    else if (successLevel == 'N') return 'Éxito parcial';
+    else if (successLevel == 'F') return 'Fallo';
+    else return 'Fallo crítico!'
+}
+
+export const isValidDiceRoll = (dices: string) => {
+    if(!dices || dices.trim() == '' || dices.trim().length < 0) return false;
+
+    const sanitized = dices.trim().toLowerCase()
+        .replace(/[^d0-9+\-*/x\s]/g, '')   // Remove invalid characters
+        .replace(/\s+/g, ' ');             // Normalize spaces
+    
+    if(sanitized === '') return false; 
+
+    const diceRegex = /^((?:[+-]?[1-9]\d*)?[dD][1-9]\d*(?:[+\-*x/][1-9]\d*)?)+$/;
+    
+    return diceRegex.test(sanitized);
 }

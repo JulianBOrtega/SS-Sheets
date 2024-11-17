@@ -22,9 +22,9 @@ export const getMaxHp = (character: ICharacter) => {
         console.log('character is null. Assigning maxHp of 6');
         return 6;
     } else if(!charaClass) {
-        console.log('Character class with id', character.classId, 'not found. Assigning maxHp of 6 + CON');
-        return 6 + getStatModifier(character.stats.con);
+        console.log('Character class with id', character.classId, 'not found. Assigning maxHp of 6 + constitution');
+        return 6 + character.stats.con;
     }
 
-    return charaClass.baseHP + getStatModifier(character.stats.con);
+    return charaClass.baseHP + character.stats.con;
 }

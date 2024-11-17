@@ -18,6 +18,7 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import ModalClose from '@mui/joy/ModalClose';
 import Typography from '@mui/joy/Typography';
 import { generateChatMsg } from '../utility/objTemplates';
+import { SuccessLevel } from '../utility/dice';
 
 export const SheetScreen = (props: any) => {
   const { loading, dataManagement, broadcast } = useContext<IDataContext>(DataContext);
@@ -62,13 +63,15 @@ export const SheetScreen = (props: any) => {
     setRedirect(true);
   }
 
-  const sendRoll = (msg: string, roll: string) => {
+  const sendRoll = (msg: string, roll: string, successLevel?: SuccessLevel) => {
       if(loading || !dataManagement || !dataManagement.user || !charaFetch.character || !charaFetch.character.id) return;
       
       const campaign = dataManagement.roomId;
       const userId = dataManagement.user.id;
       const charaId = charaFetch.character.id;
-      const chatRoll = generateChatMsg(userId, charaId, msg, false, roll);
+      const chatRoll = generateChatMsg(
+        userId, charaId, msg, false, roll, successLevel
+      );
       const fetchOps = {
           method: 'POST', body: JSON.stringify(chatRoll),
           headers: {
@@ -108,7 +111,7 @@ export const SheetScreen = (props: any) => {
       }}>
         <Tabs aria-label="Basic tabs" defaultValue={0} size={'sm'} 
         style={{background: 'transparent'}}>
-          <TabList tabFlex={'auto'} style={{background: 'transparent'}}>
+          <TabList tabFlex={'auto'} style={{background: 'transparent', width: '99%'}}>
             <Tab style={{background: 'transparent'}}>Ficha</Tab>
             <Tab style={{background: 'transparent'}}>Movimientos</Tab>
             <Tab style={{background: 'transparent'}}>Clase</Tab>
@@ -122,7 +125,7 @@ export const SheetScreen = (props: any) => {
                 display: 'flex', 
                 flexDirection: 'column', 
                 gap: 10,
-                width: '90%',
+                width: '99%',
                 height: '100%'
               }}>
               <CharaHeader 

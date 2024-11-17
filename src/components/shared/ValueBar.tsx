@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect } from 'react'
 export interface ValueBarProps {
     value: number,
     maxValue: number,
+    minValue?: number,
     editable?: boolean,
     height?: number,
     width?: number,
@@ -18,7 +19,7 @@ export interface ValueBarProps {
 export const ValueBar = (pr: ValueBarProps) => {
     //? Props default values
     const height = pr.height ? pr.height : 15;
-    const width = pr.width ? pr.width : 200;
+    const width = pr.width ? pr.width : 225;
     const radius = pr.radius ? pr.radius : 25;
     const backgroundColor = pr.backgroundColor ? pr.backgroundColor : 'gray';
     const barColor = pr.barcolor ? pr.barcolor : 'red';
@@ -77,6 +78,10 @@ export const ValueBar = (pr: ValueBarProps) => {
                 onBlur={e => 
                     pr.onSet && pr.onSet(Math.min(+e.target.value, pr.maxValue))
                 }
+                slotProps={{input: {
+                    max: pr.maxValue,
+                    min: pr.minValue !== undefined ? pr.minValue : undefined
+                }}}
             />
             <p> / {pr.maxValue} {pr.suffix}</p>
         </div>

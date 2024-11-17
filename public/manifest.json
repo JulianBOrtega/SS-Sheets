@@ -1,13 +1,13 @@
 {
-    "name": "Sai's Sheets",
-    "icon": "/icon2.png",
-    "version": "1.0.0",
-    "manifest_version": 1,
-    "action": {
-      "title": "Sheets",
-      "icon": "/icon.png",
-      "popover": "/",
-      "width": 600,
-      "height": 1000
-    }
+  "name": "SS-Extension (DEV)",
+  "icon": "/icon2-dev.png",
+  "version": "1.0.1-dev",
+  "manifest_version": 2,
+  "action": {
+    "title": "Sheets (DEV)",
+    "icon": "/icon-dev.png",
+    "popover": "/",
+    "width": 600,
+    "height": 1000
+  }
 }

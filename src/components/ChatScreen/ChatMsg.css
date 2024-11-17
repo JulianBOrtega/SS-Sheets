@@ -14,8 +14,8 @@
     width: 100%;
     padding-left: 10px;
     padding-right: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     
     margin-top: 10px;
     margin-bottom: 10px;
@@ -57,14 +57,19 @@
     margin-bottom: 5px;
 }
 
-.chatMsg-rollResultFull {
+.chatMsg-rollResultCalc {
     border: solid 2px gray;
     padding: 5px 10px;
     border-radius: 25px;   
 }
 
+.chatMsg-rollResultTotal {
+    font-size: 20px;
+    padding: 0px 2px;
+}
+
 .chatMsg-rollResultSummary {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     text-transform: uppercase;
 }

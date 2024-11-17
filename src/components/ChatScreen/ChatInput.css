@@ -2,10 +2,12 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 160px;
     gap: 8px;
-    position: sticky;
     bottom: 0;
     background: black;
+    padding-top: 10px;
+    padding-right: 10px
 }
 
 .headerContainer {
@@ -38,12 +40,23 @@
     transition: all 300ms ease;
 }
 
+.chatSendButton {
+    height: 30px !important;
+    min-height: 30px !important;
+}
+
 .diceList {
     display: flex;
-    gap: 5px;
+    gap: 8px;
     align-items: center;
 }
 
 .dice {
+    width: 25px;
+    height: 25px;
     cursor: pointer;
+}
+
+.diceInput {
+    width: 80px;
 }

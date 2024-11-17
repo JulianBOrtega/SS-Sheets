@@ -4,26 +4,27 @@ import { ChatInput } from '../components/ChatScreen/ChatInput';
 import { ICharacter } from '../interfaces/character';
 import { ChatMsg } from '../components/ChatScreen/ChatMsg';
 import { useLocation } from 'react-router-dom';
+import CircularProgress from '@mui/joy/CircularProgress/CircularProgress';
+import ghost from '../assets/img/ghost.png'
 
-  //* DONE Allow to send chat with Enter/Intro
+// TODO Add button to delete own comments (or any if DM)
 
-  //* DONE Let player update his character (onBlur/enter field)
+// TODO Add option to export database (BACK & FRONT)
+//? https://uploadcare.com/docs/start/quickstart/
+//? https://uploadcare.com/api/
 
-  //* DONE Make sure a character being updated won't affect another 
-  //* DONE That's being edited as well
+// TODO Add button to clear chart
 
-  //* DONE Let player throw his dices
-  //* DONE Display the dices in chat
+// TODO Add option to upload image
+//? https://www.npmjs.com/package/react-image-crop
+//? https://codesandbox.io/p/sandbox/react-image-crop-demo-with-react-hooks-y831o?file=%2Fsrc%2FApp.tsx
 
-  //* DONE Calculate EXP depending of level
-  
-  //* DONE Modify interfaces and create hardcoded classes
-  //* DONE And replace classField to be a selector
-  //* DONE Automatically calculate max hp
+// TODO Decide to store them in the cloud or the backend
+//? Uploadcare
+//? https://uploadcare.com/cdn/image-cdn/
 
-  // TODO Style chat
-
-  // TODO Add option to export database (BACK & FRONT)
+//? Picasa Web Albums Data API
+//? https://developers.google.com/photos
 
 export const ChatScreen = () => {
   const { loading, dataManagement } = useContext<IDataContext>(DataContext);
@@ -32,21 +33,26 @@ export const ChatScreen = () => {
   const [ready, setReady] = useState(false);
   const [availableCharas, setAvailableCharas] = useState<ICharacter[]>([]);
   const [character, setCharacter] = useState<ICharacter>();
-
-  const messagesEndRef = useRef<any>(null);
-
-  const scrollToBottom = () => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  const chatRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    scrollToBottom();
+    if(chatRef.current) {
+      chatRef.current.scrollTo({
+        left: 0,
+        top: chatRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
   }, [dataManagement, location]); 
 
   useEffect(() => {
-    scrollToBottom()
+    if(chatRef.current) {
+      chatRef.current.scrollTo({
+        left: 0,
+        top: chatRef.current.scrollHeight,
+        behavior: 'instant'
+      });
+    }
   })
 
   useEffect(() => {
@@ -67,30 +73,65 @@ export const ChatScreen = () => {
   }, [loading, dataManagement]);
   
   return ready ? (
-    <div style={{width: '100%', height: '100%'}}>
-      <div>
-        {dataManagement?.chats?.length == 0 ?
-          <p>No hay mensajes</p>
-        : dataManagement?.chats?.map((c, i) => (
-          <ChatMsg key={'chat-' + c.id + '-' + i} 
-            chatMsg={c}
-            brighterBg={i % 2 == 0}
-            user={dataManagement.user}
-            characterList={dataManagement.characters}
-          />
-        ))}
+    <div style={{
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+    }}>
+      <div ref={chatRef} style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        height: 'calc(100% - 160px)',
+        overflowY: 'auto'
+      }}>
+          {dataManagement?.chats?.length == 0 ?
+            <div style={{
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 5
+            }}>
+              <img src={ghost} alt="emptyChat" 
+                width={100} height={100}
+              />
+              <p>El chat está vacío.</p>
+            </div>
+          : dataManagement?.chats?.map((c, i) => (
+            <ChatMsg key={'chat-' + c.id + '-' + i} 
+              chatMsg={c}
+              brighterBg={i % 2 == 0}
+              user={dataManagement.user}
+              characterList={dataManagement.characters}
+            />
+          ))}
       </div>
-
+      
       <ChatInput 
         availableCharas={availableCharas}
         character={character}
         setCharacter={setCharacter}
       />
-
-    <div style={{ float:"left", clear: "both" }} ref={messagesEndRef} />
-
     </div>
   ) : (
-    <p>loading...</p>
+    <div style={{
+      width: '100%', 
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 15
+      }}
+    >
+      <CircularProgress />
+      <p style={{textAlign: 'center'}}>
+        Si la extensión no fue abierta en varios días, <br/>
+        puede tomar un par de minutos en cargar por primera vez.
+      </p>
+    </div>
   )
 }

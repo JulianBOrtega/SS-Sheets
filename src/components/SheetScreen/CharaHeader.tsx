@@ -11,6 +11,7 @@ import { DiceRoll } from '@dice-roller/rpg-dice-roller';
 import { getMaxExp, getMaxHp } from '../../utility/sheetCalc';
 import { SheetFieldSelector } from '../shared/SheetFieldSelector';
 import { getClass, getClassOptions } from '../../utility/hardcoded';
+import { isValidDiceRoll } from '../../utility/dice';
 
 export interface CharaHeaderProps {
   data: ICharacter,
@@ -23,6 +24,11 @@ export interface CharaHeaderProps {
 export const CharaHeader = ({data, notifyChange, editable, setEditable, sendStatRoll}: CharaHeaderProps) => {
   const handleEdit = () => {
     setEditable(!editable);
+
+    const maxhp = getMaxHp(data);
+    const maxexp = getMaxExp(data.level);
+    if(data.hp > maxhp) data.hp = maxhp;
+    if(data.exp > maxexp) data.exp = maxexp;
   }
   
   const handleBlur = <K extends keyof ICharacter>(
@@ -30,7 +36,14 @@ export const CharaHeader = ({data, notifyChange, editable, setEditable, sendStat
   ) => {
     if(data[field] == newValue) return;
 
-    data[field] = newValue;
+    if(field == 'name' && !newValue || newValue?.toString().trim() == '') {
+      data.name = 'Sin nombre';
+    } else if (field == 'damageDice' && !isValidDiceRoll(newValue as string)) {
+      data.damageDice = '1d4';
+    } else {
+      data[field] = newValue;
+    }
+  
     notifyChange();
   }
 
@@ -72,17 +85,6 @@ export const CharaHeader = ({data, notifyChange, editable, setEditable, sendStat
             {data.race}
           </SheetField>
           
-          {/* <SheetField
-            editable={editable}
-            textClass={'charaHeaderSmallSheetField'}
-            inputClass={'charaHeaderSmallSheetFieldEditable'}
-            onChange={(value) => handleBlur('classId', value)}
-            placeholder={'Clase'}
-            inputType='text'
-          >
-            {data.classId}
-          </SheetField> */}
-          
           <SheetFieldSelector
             defaultValue={data.classId}
             options={getClassOptions()}
@@ -104,6 +106,8 @@ export const CharaHeader = ({data, notifyChange, editable, setEditable, sendStat
             onChange={(value) => handleBlur('level', +value)}
             placeholder={'Nivel'}
             inputType='number'
+            minNum={0}
+            maxNum={100}
           >
             {data.level}
           </SheetField>
@@ -116,6 +120,7 @@ export const CharaHeader = ({data, notifyChange, editable, setEditable, sendStat
             <ValueBar 
               value={data.hp}
               maxValue={getMaxHp(data)}
+              minValue={0}
               suffix='HP'
               barcolor='#730A0A'
               backgroundColor='rgba(125,125,125)'
@@ -125,6 +130,7 @@ export const CharaHeader = ({data, notifyChange, editable, setEditable, sendStat
             <ValueBar 
               value={data.exp}
               maxValue={getMaxExp(data.level)}
+              minValue={0}
               suffix='EXP'
               barcolor='#78631F'
               backgroundColor='rgba(125,125,125)'
@@ -141,6 +147,7 @@ export const CharaHeader = ({data, notifyChange, editable, setEditable, sendStat
             inputClass='charaHeaderShieldSword'
             placeholder='Armadura'
             inputType='number'
+            minNum={0}
           >
             <div className="charaHeaderShieldSwordContainer">
               <img src={shield} 

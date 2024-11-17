@@ -8,16 +8,14 @@ export interface BigSheetDiceProps {
     value: number,
     label: string,
     onChange: (value: number) => void,
-    sendRoll: (roll: string) => void
+    sendRoll: (roll: DiceRoll) => void
 }
 
 export const BigSheetDice = ({ editable, value, label, onChange, sendRoll }: BigSheetDiceProps) => {
 
     const rollStat = () => {
         const dice = '2d10+' + getStatModifier(value);
-        const roll = new DiceRoll(dice);
-
-        sendRoll(roll.toString());
+        sendRoll(new DiceRoll(dice));
     }
 
     return (
@@ -58,6 +56,10 @@ export const BigSheetDice = ({ editable, value, label, onChange, sendRoll }: Big
                         '--Input-focusedHighlight': 'transparent',
                     }}
                     onBlur={e => onChange(+e.target.value)}
+                    slotProps={{ input: {
+                        min: 3,
+                        max: 22
+                    }}}
                 />
             ) : (
                 <p style={{ fontSize: 18, fontWeight: 600 }}>{getStatModifier(value) > 0 && '+'}{getStatModifier(value)}</p>

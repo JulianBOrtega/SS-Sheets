@@ -1,16 +1,16 @@
 import { ICharacter } from '../interfaces/character';
 import { IChatMsg } from '../interfaces/chat';
-import { getMaxExp, getMaxHp } from './sheetCalc';
+import { SuccessLevel } from './dice';
 
 export const getDefaultCharacter = (userId: string): ICharacter => ({
     id: null,
     userId: userId,
     name: 'Introducir nombre',
-    race: 'Raza',
+    race: '',
     classId: 1,
     level: 1,
     exp: 0,
-    hp: 6,
+    hp: 16,
     damageDice: '1d4',
     tempArmor: 0,
     alignment: 'neutral',
@@ -26,11 +26,12 @@ export const getDefaultCharacter = (userId: string): ICharacter => ({
     bonds: [],
 })
 
-export const generateChatMsg = (userId: string, characterId: string, msg: string, isWhisper: boolean, rollResult?: string): IChatMsg => ({
+export const generateChatMsg = (userId: string, characterId: string, msg: string, isWhisper: boolean, rollResult?: string, successLevel?: SuccessLevel): IChatMsg => ({
     id: null,
     userId,
     characterId: characterId,
     msg,
     rollResult,
-    isWhisper
+    isWhisper,
+    successLevel
 })

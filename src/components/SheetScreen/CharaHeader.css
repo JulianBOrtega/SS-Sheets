@@ -2,6 +2,8 @@
     display: flex;
     gap: 15px;
     align-items: center;
+    width: 100%;
+    max-width: 100%;
 }
 
 .charaHeaderEditButton {
@@ -34,14 +36,14 @@
 
 .charaHeaderColumnBottom {
     display: flex;
-    gap: 5px;
+    gap: 15px;
     align-items: center;
 }
 
 .charaHeaderBars {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 5px;
     align-items: center;
     margin-right: 2px;
 }
@@ -64,6 +66,7 @@
 .charaHeaderClassFieldEditable {
     border-bottom: solid 1px rgba(100, 100, 100, 0.4);
     width: 250px;
+    height: 20px;
 }
 
 .charaHeaderBigSheetField {
