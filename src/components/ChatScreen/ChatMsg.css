@@ -1,5 +1,6 @@
 .chatMsg-container {
-    
+    display: flex;
+    justify-content: space-between
 }
 
 .chatMsg-msg {
@@ -25,6 +26,8 @@
 
 .chatMsg-character {
     font-weight: 600;
+    display: flex;
+    justify-content: space-between;
 }
 
 .chatMsg-msgChat {
@@ -72,4 +75,9 @@
     font-size: 18px;
     font-weight: 700;
     text-transform: uppercase;
+}
+
+.chatMsg-actions {
+    display: flex;
+    gap: 5px;
 }

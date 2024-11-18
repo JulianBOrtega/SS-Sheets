@@ -13,81 +13,87 @@ export interface ChatMsgProps {
     user?: IUser
 }
 
-export const ChatMsg = ({chatMsg, brighterBg, user, characterList}: ChatMsgProps) => {
-  return characterList && user && ((!chatMsg.isWhisper) || 
-    (chatMsg.isWhisper && user.role == 'GM') 
-    || (chatMsg.isWhisper && chatMsg.userId == user.id)) && (
-    <>
-        { !chatMsg.rollResult ? (
-            <div className='chatMsg-container chatMsg-msg' style={{background: brighterBg ? 'rgba(45, 45, 45, 1)' : 'rgba(30, 30, 30, 1)'}}>
-                <p className='chatMsg-character' style={{color: chatMsg.isWhisper ? 'palevioletred' : undefined}}>
-                    {
-                        characterList.find(
-                            c => c.id == chatMsg.characterId
-                        )?.name || 'Desconocido (PJ Eliminado?)'
-                    }
-                    {
-                            chatMsg.isWhisper && ' (Sussuro a DM)'
-                    }
-                </p>
-                <p className='chatMsg-msgChat' style={{color: chatMsg.isWhisper ? 'palevioletred' : undefined}}>
-                    {chatMsg.msg}
-                </p>
-            </div>
-        ) : (
-            <div style={{
-                paddingTop: 1,
-                paddingBottom: 1,
-                paddingLeft: 50, 
-                paddingRight: 50
-                }}>
-                <div className='chatMsg-container chatMsg-roll'>
-                    <p className='chatMsg-character' style={{color: chatMsg.isWhisper ? 'pink' : undefined}}>
-                        {
-                            characterList.find(
-                                c => c.id == chatMsg.characterId
-                            )?.name || 'Desconocido (PJ Eliminado?)'
-                        }
+export const ChatMsg = ({ chatMsg, brighterBg, user, characterList }: ChatMsgProps) => {
 
-                        {
-                            chatMsg.isWhisper && '(Sussuro a DM)'
-                        }
-                    </p>
-                    <p className='chatMsg-msgChat chatMsg-msgRoll'>
-                        {chatMsg.msg}
-                    </p>
-                    <div className='chatMsg-rollResultContainer'>
-                        <div className='chatMsg-rollResultCard'>
-                            <p className='chatMsg-rollResultCalc'>
+    return characterList && user && ((!chatMsg.isWhisper) ||
+        (chatMsg.isWhisper && user.role == 'GM')
+        || (chatMsg.isWhisper && chatMsg.userId == user.id)) && (
+            <>
+                {!chatMsg.rollResult ? (
+                    <div className='chatMsg-container chatMsg-msg' style={{ background: brighterBg ? 'rgba(45, 45, 45, 1)' : 'rgba(30, 30, 30, 1)' }}>
+                        <div>
+                            <p className='chatMsg-character' style={{ color: chatMsg.isWhisper ? 'palevioletred' : undefined }}>
                                 {
-                                    replaceAll(chatMsg.rollResult.slice(
-                                        0,
-                                        chatMsg.rollResult.lastIndexOf('=')
-                                    ), '+-', '-')
+                                    characterList.find(
+                                        c => c.id == chatMsg.characterId
+                                    )?.name || 'Desconocido (PJ Eliminado?)'
+                                }
+                                {
+                                    chatMsg.isWhisper && ' (Sussuro a DM)'
                                 }
                             </p>
-
-                            <p className='chatMsg-rollResultTotal'>
-                                {
-                                    chatMsg.rollResult.slice(
-                                        chatMsg.rollResult.lastIndexOf('=')
-                                    )
-                                }
+                            <p className='chatMsg-msgChat' style={{ color: chatMsg.isWhisper ? 'palevioletred' : undefined }}>
+                                {chatMsg.msg}
                             </p>
-
-                            { chatMsg.successLevel && (
-                                <p className='chatMsg-rollResultSummary' style={{
-                                    color: getSuccessColor(chatMsg.successLevel)
-                                }}>
-                                    {
-                                        getSuccessLabel(chatMsg.successLevel)
-                                    } 
-                                </p>
-                            )}
                         </div>
                     </div>
-                </div>
-            </div>
-        )}   
-    </>
-  )}
+                ) : (
+                    <div style={{
+                        paddingTop: 1,
+                        paddingBottom: 1,
+                        paddingLeft: 50,
+                        paddingRight: 50
+                    }}>
+                        <div className='chatMsg-roll'>
+                            <div>
+                                <div className='chatMsg-character' style={{ color: chatMsg.isWhisper ? 'pink' : undefined }}>
+                                    {
+                                        characterList.find(
+                                            c => c.id == chatMsg.characterId
+                                        )?.name || 'Desconocido (PJ Eliminado?)'
+                                    }
+
+                                    {
+                                        chatMsg.isWhisper && '(Sussuro a DM)'
+                                    }
+                                </div>
+                                <p className='chatMsg-msgChat chatMsg-msgRoll'>
+                                    {chatMsg.msg}
+                                </p>
+                                <div className='chatMsg-rollResultContainer'>
+                                    <div className='chatMsg-rollResultCard'>
+                                        <p className='chatMsg-rollResultCalc'>
+                                            {
+                                                replaceAll(chatMsg.rollResult.slice(
+                                                    0,
+                                                    chatMsg.rollResult.lastIndexOf('=')
+                                                ), '+-', '-')
+                                            }
+                                        </p>
+
+                                        <p className='chatMsg-rollResultTotal'>
+                                            {
+                                                chatMsg.rollResult.slice(
+                                                    chatMsg.rollResult.lastIndexOf('=')
+                                                )
+                                            }
+                                        </p>
+
+                                        {chatMsg.successLevel && (
+                                            <p className='chatMsg-rollResultSummary' style={{
+                                                color: getSuccessColor(chatMsg.successLevel)
+                                            }}>
+                                                {
+                                                    getSuccessLabel(chatMsg.successLevel)
+                                                }
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </>
+        )
+}

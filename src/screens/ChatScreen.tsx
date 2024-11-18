@@ -7,13 +7,11 @@ import { useLocation } from 'react-router-dom';
 import CircularProgress from '@mui/joy/CircularProgress/CircularProgress';
 import ghost from '../assets/img/ghost.png'
 
-// TODO Add button to delete own comments (or any if DM)
+//* Add button to clear chart
 
 // TODO Add option to export database (BACK & FRONT)
 //? https://uploadcare.com/docs/start/quickstart/
 //? https://uploadcare.com/api/
-
-// TODO Add button to clear chart
 
 // TODO Add option to upload image
 //? https://www.npmjs.com/package/react-image-crop
@@ -100,7 +98,7 @@ export const ChatScreen = () => {
               />
               <p>El chat está vacío.</p>
             </div>
-          : dataManagement?.chats?.map((c, i) => (
+          : dataManagement?.chats?.slice(-50).map((c, i) => (
             <ChatMsg key={'chat-' + c.id + '-' + i} 
               chatMsg={c}
               brighterBg={i % 2 == 0}
