@@ -2,7 +2,7 @@ import React from 'react'
 import { getStatModifier } from '../../utility/sheetCalc'
 import Input from '@mui/joy/Input'
 import { DiceRoll } from '@dice-roller/rpg-dice-roller'
-
+import './BigSheetDice.css'
 export interface BigSheetDiceProps {
     editable: boolean,
     value: number,
@@ -19,7 +19,7 @@ export const BigSheetDice = ({ editable, value, label, onChange, sendRoll }: Big
     }
 
     return (
-        <div onClick={() => !editable && rollStat()} 
+        <div className="bigDice" onClick={() => !editable && rollStat()} 
             style={{
                 width: 75,
                 height: 75,
@@ -28,7 +28,7 @@ export const BigSheetDice = ({ editable, value, label, onChange, sendRoll }: Big
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 5,
-                background: 'rgba(50, 50, 50, 1)',
+                background: 'rgba(35, 35, 35, 1)',
                 borderRadius: 8,
                 cursor: editable ? undefined : 'pointer'
             }}

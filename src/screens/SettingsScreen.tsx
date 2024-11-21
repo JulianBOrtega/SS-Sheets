@@ -6,9 +6,18 @@ import AccordionSummary from '@mui/joy/AccordionSummary';
 import { Backup } from '../components/SettingsScreen/Backup';
 import { BaseDeDatos } from '../components/SettingsScreen/BaseDeDatos';
 import { DataContext, IDataContext } from '../context/DataContext';
+import { UseBackup } from '../hooks/UseBackup';
 
 export const SettingsScreen = () => {
   const { loading, dataManagement, broadcast } = useContext<IDataContext>(DataContext);
+  
+  const {
+    loading: loadingBackup, info, handleFileChange, 
+    triggerBackup, restoreBackup
+  } = UseBackup(
+    'characters', dataManagement?.roomId, dataManagement?.characters
+  );
+
   const url = useRef<string>(import.meta.env.VITE_API_URL);
 
   const clearChat = () => {
@@ -25,9 +34,12 @@ export const SettingsScreen = () => {
   }
 
   return (
-    <div style={{
+    <div className="settingsScreen" style={{
       display: 'flex',
       flexDirection: 'column',
+      width: '100%',
+      height: '98%',
+      overflowY: 'auto',
       padding: 10
     }}>
       <p style={{
@@ -56,6 +68,9 @@ export const SettingsScreen = () => {
                 background: 'rgba(100, 100, 100, 0.35)'
               }}>
                 <BaseDeDatos 
+                  loading={loading || loadingBackup}
+                  info={info}
+                  restoreBackup={restoreBackup}
                   clearChat={clearChat}
                 />
               </AccordionDetails>
@@ -71,13 +86,48 @@ export const SettingsScreen = () => {
           }}>
             <p>Backup</p>
             <p style={{fontSize: 12, color: 'gray'}}>
-              Respalda los datos de la campaña (y pidele a tu DM que los suba)
+              Respalda los datos de la campaña (DM puede restaurar los datos)
             </p>
           </AccordionSummary>
           <AccordionDetails style={{
             background: 'rgba(100, 100, 100, 0.35)'
           }}>
-            <Backup />
+            <Backup 
+              loading={loading || loadingBackup}
+              triggerBackup={triggerBackup}
+              info={info}
+            />
+          </AccordionDetails>
+        </Accordion>
+        
+        <Accordion>
+          <AccordionSummary style={{
+            borderBottom: 'solid 1px rgba(100, 100, 100, 0.35)',
+            borderLeft: 'solid 1px rgba(100, 100, 100, 0.35)',
+            borderRight: 'solid 1px rgba(100, 100, 100, 0.35)'
+          }}>
+            <p>Información adicional</p>
+            <p style={{fontSize: 12, color: 'gray'}}>
+              Datos para el desarrollador
+            </p>
+          </AccordionSummary>
+          <AccordionDetails style={{
+            background: 'rgba(100, 100, 100, 0.35)'
+          }}>
+            <p>Campaign ID</p>
+            <p style={{fontSize: 12, color: 'gray'}}>
+              {dataManagement?.roomId}
+            </p>
+            
+            <div style={{ 
+              borderBottom: 'solid 1px rgba(100, 100, 100, 0.3)',
+              marginTop: 5, marginBottom: 5
+            }}/>
+
+            <p>CharacterBackup ID</p>
+            <p style={{fontSize: 12, color: 'gray'}}>
+              {info?.id ? info.id : 'Null'}
+            </p>
           </AccordionDetails>
         </Accordion>
       </AccordionGroup>

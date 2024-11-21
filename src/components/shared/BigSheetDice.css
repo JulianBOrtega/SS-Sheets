@@ -1,0 +1,9 @@
+.bigDice {
+    transition: border 100ms ease;
+    border: solid 1px;
+    border-color: rgba(90, 90, 90, 0);
+}
+
+.bigDice:hover {
+    border-color: rgba(90, 90, 90, 1);
+}

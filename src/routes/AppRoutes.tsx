@@ -10,7 +10,7 @@ export const AppRoutes = () => {
   const { loading } = useContext<IDataContext>(DataContext)
 
   return !loading && (
-    <div style={{
+    <div className="routeContent" style={{
       width: 'calc(100% - 60px)',
       height: '100%',
     }}>

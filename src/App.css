@@ -1,0 +1,11 @@
+.sheetScreen {
+    background: url('assets/img/bg/bg6.png');
+    background-blend-mode: multiply;
+    background-attachment: fixed;
+    background-position: left;
+    background-size: cover;
+}
+
+.routeContent {
+    background-color: black;
+}

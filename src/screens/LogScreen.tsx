@@ -3,6 +3,12 @@ import { InDevelopment } from '../components/shared/InDevelopment'
 
 export const LogScreen = () => {
   return (
-    <InDevelopment />
+    <div style={{
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'black'
+    }}>
+      <InDevelopment />
+    </div>
   )
 }

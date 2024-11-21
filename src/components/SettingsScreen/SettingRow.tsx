@@ -6,10 +6,12 @@ export interface SettingRowProps {
     label: string,
     buttonLabel: string,
     buttonColor?: 'primary' | 'neutral' | 'danger' | 'warning' | 'success',
+    loading?: boolean,
+    disabled?: boolean,
     buttonAction?: () => void
 }
 
-export const SettingRow = ({icon, label, buttonLabel, buttonColor, buttonAction}: SettingRowProps) => {
+export const SettingRow = ({icon, label, buttonLabel, buttonColor, buttonAction, loading, disabled}: SettingRowProps) => {
   return (
     <div style={{
         width: '100%',
@@ -28,6 +30,8 @@ export const SettingRow = ({icon, label, buttonLabel, buttonColor, buttonAction}
 
         <Button size={'sm'} onClick={buttonAction}
             color={buttonColor ? buttonColor : 'primary'}
+            loading={loading}
+            disabled={disabled}
         >
             {buttonLabel}
         </Button>

@@ -92,19 +92,24 @@ export const SheetScreen = (props: any) => {
   }, [editable]);
 
   return charaFetch.loading ? (
-    <div style={{ 
+    <div className="sheetScreen" style={{ 
         width: '100%', 
+        height: '100%',
         display: 'flex', 
         alignItems: 'center', 
-        justifyContent: 'center'
+        justifyContent: 'center',
       }}
     >
       <CircularProgress />
     </div>
   ) : charaFetch.character ? (
     <>
-      <div style={{
-        width: '100%', 
+      <div className="sheetScreen" style={{
+        backgroundColor: editable ? 
+          'black' : 'rgba(150, 150, 150, 1)',
+        width: '100%',
+        height: '100%',
+        overflowY: 'auto',
         display: 'flex', 
         flexDirection: 'column', 
         gap: 2,
@@ -126,7 +131,7 @@ export const SheetScreen = (props: any) => {
                 flexDirection: 'column', 
                 gap: 10,
                 width: '99%',
-                height: '100%'
+                height: '100%',
               }}>
               <CharaHeader 
                 data={charaFetch.character}

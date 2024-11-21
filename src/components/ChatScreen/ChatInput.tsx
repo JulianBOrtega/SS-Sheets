@@ -13,11 +13,13 @@ import d8 from '../../assets/img/d8.png'
 import d10 from '../../assets/img/d10.png'
 import d12 from '../../assets/img/d12.png'
 import d20 from '../../assets/img/d20.png'
-import './ChatInput.css';
 import { DiceRoll } from '@dice-roller/rpg-dice-roller';
 import { isValidDiceRoll } from '../../utility/dice';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
+import attentionIcon from '../../assets/img/attention-icon.png';
+import './ChatInput.css';
+
 
 export interface ChatInputProps {
     availableCharas: ICharacter[],
@@ -132,7 +134,6 @@ export const ChatInput = ({availableCharas, character, setCharacter}: ChatInputP
     const dInputKeyUp = (event: any) => {
         if(event.key != 'Enter') return;
         
-        console.log(dInput);
         sendRoll(dInput); 
         setDInput('');
     }
@@ -140,24 +141,6 @@ export const ChatInput = ({availableCharas, character, setCharacter}: ChatInputP
     return (
         <div className="chatInputContainer">
             <div className="headerContainer">
-                {/* <Autocomplete
-                    options={availableCharas}
-                    getOptionLabel={option => option.name}
-                    loading={
-                        loading || !dataManagement || !dataManagement.characters
-                        || !dataManagement.user
-                    }
-                    autoComplete={true}
-                    autoSelect={true}
-                    disabled={
-                        loading || !dataManagement || !dataManagement.characters
-                        || !dataManagement.user
-                    }
-                    disableClearable={true}
-                    onChange={(e, chara) => setCharacter(chara)}
-                    value={character}
-                    placeholder='Hablar como...'
-                /> */}
                 <Select
                     size={'sm'}
                     disabled={
@@ -178,54 +161,71 @@ export const ChatInput = ({availableCharas, character, setCharacter}: ChatInputP
                     }
                 </Select>
 
-                {/* 
-                    //TODO DICES
-                */}
-                <div className="diceList">
-                    <Badge badgeContent={d4num} size={'sm'} badgeInset={'2px 5px 0 0'} variant="solid" >
-                        <img className="dice" src={d4} alt="d4" 
-                            onClick={() => addDice('d4')}
+                { !character ? (
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        paddingRight: 5,
+                        gap: 5
+                    }}>
+                        <img src={attentionIcon} alt="!"  
+                            width={15} height={15}
                         />
-                    </Badge>
-                    <Badge badgeContent={d6num} size={'sm'} badgeInset={'2px 5px 0 0'} variant="solid" >
-                        <img className="dice" src={d6} alt="d6" 
-                            onClick={() => addDice('d6')}
+                        <p style={{
+                            fontSize: 11,
+                            color: 'gray'
+                        }}>
+                            Necesitas una ficha para lanzar dados o enviar mensajes
+                        </p>
+                    </div>
+                ) : (    
+                    <div className="diceList">
+                        <Badge badgeContent={d4num} size={'sm'} badgeInset={'2px 5px 0 0'} variant="solid" >
+                            <img className="dice" src={d4} alt="d4" 
+                                onClick={() => addDice('d4')}
+                            />
+                        </Badge>
+                        <Badge badgeContent={d6num} size={'sm'} badgeInset={'2px 5px 0 0'} variant="solid" >
+                            <img className="dice" src={d6} alt="d6" 
+                                onClick={() => addDice('d6')}
+                            />
+                        </Badge>
+                        <Badge badgeContent={d8num} size={'sm'} badgeInset={'2px 5px 0 0'} variant="solid" >
+                            <img className="dice" src={d8} alt="d8" 
+                                onClick={() => addDice('d8')}
+                            />
+                        </Badge>
+                        <Badge badgeContent={d10num} size={'sm'} badgeInset={'2px 5px 0 0'} variant="solid" >
+                            <img className="dice" src={d10} alt="d10" 
+                                onClick={() => addDice('d10')}
+                            />
+                        </Badge>
+                        <Badge badgeContent={d12num} size={'sm'} badgeInset={'2px 5px 0 0'} variant="solid" >
+                            <img className="dice" src={d12} alt="d12" 
+                                onClick={() => addDice('d12')}
+                            />
+                        </Badge>
+                        <Badge badgeContent={d20num} size={'sm'} badgeInset={'2px 5px 0 0'} variant="solid" >
+                            <img className="dice" src={d20} alt="d20" 
+                                onClick={() => addDice('d20')}
+                            />
+                        </Badge>
+                        <Input className="diceInput"
+                            placeholder="Dados"
+                            variant="plain"
+                            size={'sm'}
+                            value={dInput}
+                            onFocus={() => clearDiceCounters()}
+                            onChange={(e) => setDInput(e.target.value)}
+                            onKeyUp={dInputKeyUp}
+                            style={{
+                                borderBottom: 'solid 1px rgba(100, 100, 100, 0.4)',
+                                borderRadius: 0
+                            }}
                         />
-                    </Badge>
-                    <Badge badgeContent={d8num} size={'sm'} badgeInset={'2px 5px 0 0'} variant="solid" >
-                        <img className="dice" src={d8} alt="d8" 
-                            onClick={() => addDice('d8')}
-                        />
-                    </Badge>
-                    <Badge badgeContent={d10num} size={'sm'} badgeInset={'2px 5px 0 0'} variant="solid" >
-                        <img className="dice" src={d10} alt="d10" 
-                            onClick={() => addDice('d10')}
-                        />
-                    </Badge>
-                    <Badge badgeContent={d12num} size={'sm'} badgeInset={'2px 5px 0 0'} variant="solid" >
-                        <img className="dice" src={d12} alt="d12" 
-                            onClick={() => addDice('d12')}
-                        />
-                    </Badge>
-                    <Badge badgeContent={d20num} size={'sm'} badgeInset={'2px 5px 0 0'} variant="solid" >
-                        <img className="dice" src={d20} alt="d20" 
-                            onClick={() => addDice('d20')}
-                        />
-                    </Badge>
-                    <Input className="diceInput"
-                        placeholder="Dados"
-                        variant="plain"
-                        size={'sm'}
-                        value={dInput}
-                        onFocus={() => clearDiceCounters()}
-                        onChange={(e) => setDInput(e.target.value)}
-                        onKeyUp={dInputKeyUp}
-                        style={{
-                            borderBottom: 'solid 1px rgba(100, 100, 100, 0.4)',
-                            borderRadius: 0
-                        }}
-                    />
-                </div>
+                    </div>
+                )}
             </div>
 
             <div className="inputContainer">

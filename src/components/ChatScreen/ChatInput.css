@@ -5,9 +5,9 @@
     height: 160px;
     gap: 8px;
     bottom: 0;
-    background: black;
     padding-top: 10px;
-    padding-right: 10px
+    padding-right: 10px;
+    padding-left: 10px;
 }
 
 .headerContainer {

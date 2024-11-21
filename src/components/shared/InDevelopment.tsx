@@ -3,7 +3,7 @@ import './InDevelopment.css'
 import cat from '../../assets/img/cat-indevelopment.png'
 export const InDevelopment = () => {
   return (
-    <div className='container'>
+    <div className='inDevelopment container'>
         <div className='catBorder'>
             <img className='catImg' 
               src={cat} 

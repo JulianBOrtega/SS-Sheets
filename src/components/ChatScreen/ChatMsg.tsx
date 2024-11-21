@@ -20,7 +20,7 @@ export const ChatMsg = ({ chatMsg, brighterBg, user, characterList }: ChatMsgPro
         || (chatMsg.isWhisper && chatMsg.userId == user.id)) && (
             <>
                 {!chatMsg.rollResult ? (
-                    <div className='chatMsg-container chatMsg-msg' style={{ background: brighterBg ? 'rgba(45, 45, 45, 1)' : 'rgba(30, 30, 30, 1)' }}>
+                    <div className='chatMsg-container chatMsg-msg' style={{ background: brighterBg ? 'rgba(45, 45, 45, 0.75)' : 'rgba(30, 30, 30, 0.75)' }}>
                         <div>
                             <p className='chatMsg-character' style={{ color: chatMsg.isWhisper ? 'palevioletred' : undefined }}>
                                 {
