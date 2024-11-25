@@ -17,7 +17,7 @@ import ghost from '../assets/img/ghost.png'
   
   //* DONE Fetch it from database and then upload it using handleFilechange
 
-  // TODO Fix dices only available for players with sheets
+  //* DONE Fix dices only available for players with sheets
 
   // TODO Store images and set them in the characters (then trigger update)
   // TODO Add option to upload image

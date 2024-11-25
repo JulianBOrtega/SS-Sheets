@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from 'react';
-import noImg from '../../assets/img/no-chara-img.png';
 import './CharaHeader.css'
 import { ICharacter } from '../../interfaces/character';
 import { SheetField } from '../shared/SheetField';
@@ -12,6 +11,7 @@ import { getMaxExp, getMaxHp } from '../../utility/sheetCalc';
 import { SheetFieldSelector } from '../shared/SheetFieldSelector';
 import { getClass, getClassOptions } from '../../utility/hardcoded';
 import { isValidDiceRoll } from '../../utility/dice';
+import { CharacterImage } from './CharacterImage';
 
 export interface CharaHeaderProps {
   data: ICharacter,
@@ -57,7 +57,7 @@ export const CharaHeader = ({data, notifyChange, editable, setEditable, sendStat
   return (
     <div className="charaHeader">
       {/* Character Image */}
-      <img src={noImg} alt="test" width={120} height={120} />
+      <CharacterImage character={data} />
 
       <div className="charaHeaderColumn">
         {/* Name */}
