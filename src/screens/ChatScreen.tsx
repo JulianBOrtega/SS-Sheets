@@ -7,27 +7,8 @@ import { useLocation } from 'react-router-dom';
 import CircularProgress from '@mui/joy/CircularProgress/CircularProgress';
 import ghost from '../assets/img/ghost.png'
 
-  //* Add button to clear chart
-
-  //* Add option to export database (BACK & FRONT)
-  //? https://uploadcare.com/docs/start/quickstart/
-  //? https://uploadcare.com/api/
-
-  //* DONE Write the timestamp correctly (yyyy/mm/dd)
-  
-  //* DONE Fetch it from database and then upload it using handleFilechange
-
-  //* DONE Fix dices only available for players with sheets
-
-  // TODO Store images and set them in the characters (then trigger update)
-  // TODO Add option to upload image
-  //? https://www.npmjs.com/package/react-image-crop
-  //? https://codesandbox.io/p/sandbox/react-image-crop-demo-with-react-hooks-y831o?file=%2Fsrc%2FApp.tsx
-  // TODO Decide to store them in the cloud or the backend
-  //? Uploadcare
-  //? https://uploadcare.com/cdn/image-cdn/
-  //? Picasa Web Albums Data API
-  //? https://developers.google.com/photos
+// TODO Create database using mongoDB
+// TODO Add logs
 
 export const ChatScreen = () => {
   const { loading, dataManagement } = useContext<IDataContext>(DataContext);
