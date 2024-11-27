@@ -30,7 +30,11 @@ export const SheetScreen = (props: any) => {
   const [redirect, setRedirect] = useState(false);
   const [editable, setEditable] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+
+  //? Refs
   const url = useRef<string>(import.meta.env.VITE_API_URL);
+  const publicKey = useRef<string>(import.meta.env.VITE_UPLOADCARE_KEY);
+  const secretKey = useRef<string>(import.meta.env.VITE_UPLOADCARE_SECRET_KEY);
   
   const updateCharacter = () => {
     if(loading || !dataManagement || !dataManagement.user || !charaFetch.character || !charaFetch.character.id) return;
@@ -48,8 +52,37 @@ export const SheetScreen = (props: any) => {
     .catch(err => console.log('ERROR at updating characters', err));
   }
 
+  const deleteCharacterImage = () => {
+    if(!charaFetch.character) return;
+
+    const character = charaFetch.character;
+    const url = character.imgPath;
+    const match = url?.match(/ucarecdn\.com\/([a-zA-Z0-9\-]+)/);
+    const imgId = match ? match[1] : null;
+    if(imgId) {
+        //? Deleting previous image if existed
+        const deleteUrl = `https://api.uploadcare.com/files/${imgId}/storage/`;
+        const deleteHeaders = {
+            Accept: 'application/vnd.uploadcare-v0.7+json',
+            Authorization: `Uploadcare.Simple ${publicKey.current}:${secretKey.current}`,
+        }
+
+        fetch(deleteUrl, {
+            method: 'DELETE',
+            headers: deleteHeaders,
+        }).then(res => res.json())
+        .then(result => {
+            console.log('Removal of character image done', result);
+        }).catch(err => console.log('ERROR at deleting image', err))
+    } else if(character.imgPath) {
+        console.error("Imgpath doesn't have the correct format to be deleted", character.imgPath);
+    }
+  }
+
   const deleteSheet = () => {
     if(loading || !dataManagement || !dataManagement.user || !charaFetch.character || !charaFetch.character.id) return;
+    
+    deleteCharacterImage();
 
     const campaign = dataManagement.roomId;
     const fetchOps = { method: 'DELETE' };
@@ -139,6 +172,7 @@ export const SheetScreen = (props: any) => {
                 editable={editable}
                 setEditable={setEditable}
                 sendStatRoll={sendRoll}
+                saveChanges={updateCharacter}
               />
               <Stats 
                 data={charaFetch.character}

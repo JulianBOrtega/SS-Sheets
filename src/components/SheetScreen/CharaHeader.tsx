@@ -17,11 +17,12 @@ export interface CharaHeaderProps {
   data: ICharacter,
   editable: boolean,
   notifyChange: () => void,
+  saveChanges: () => void,
   setEditable: (value: boolean) => void,
   sendStatRoll: (msg: string, roll: string ) => void,
 }
 
-export const CharaHeader = ({data, notifyChange, editable, setEditable, sendStatRoll}: CharaHeaderProps) => {
+export const CharaHeader = ({data, notifyChange, editable, setEditable, sendStatRoll, saveChanges}: CharaHeaderProps) => {
   const handleEdit = () => {
     setEditable(!editable);
 
@@ -57,7 +58,7 @@ export const CharaHeader = ({data, notifyChange, editable, setEditable, sendStat
   return (
     <div className="charaHeader">
       {/* Character Image */}
-      <CharacterImage character={data} />
+      <CharacterImage character={data} saveChanges={saveChanges}/>
 
       <div className="charaHeaderColumn">
         {/* Name */}

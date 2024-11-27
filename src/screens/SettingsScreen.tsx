@@ -128,6 +128,52 @@ export const SettingsScreen = () => {
             <p style={{fontSize: 12, color: 'gray'}}>
               {info?.id ? info.id : 'Null'}
             </p>
+
+            <div style={{ 
+              borderBottom: 'solid 1px rgba(100, 100, 100, 0.3)',
+              marginTop: 5, marginBottom: 5
+            }}/>
+
+            <p>User ID / Role</p>
+            <p style={{fontSize: 12, color: 'gray'}}>
+              {dataManagement?.user?.id} / {dataManagement?.user?.role}
+            </p>
+            
+            <div style={{ 
+              borderBottom: 'solid 1px rgba(100, 100, 100, 0.3)',
+              marginTop: 5, marginBottom: 5
+            }}/>
+
+            <p>Frontend url</p>
+            <a style={{fontSize: 12, color: 'gray'}} 
+              href={window.location.href.replace('Settings', '')} 
+              target="_blank"
+            >
+              {window.location.href.replace('Settings', '')}
+            </a>
+
+            <div style={{ 
+              borderBottom: 'solid 1px rgba(100, 100, 100, 0.3)',
+              marginTop: 5, marginBottom: 5
+            }}/>
+
+            <p>Backend url</p>
+            <a style={{fontSize: 12, color: 'gray'}}
+              href={url.current}
+              target="_blank"
+            >
+              {url.current}
+            </a>
+
+            <div style={{ 
+              borderBottom: 'solid 1px rgba(100, 100, 100, 0.3)',
+              marginTop: 5, marginBottom: 5
+            }}/>
+
+            <p>Currently in memory</p>
+            <p style={{fontSize: 12, color: 'gray'}}>
+              Characters: {dataManagement?.characters?.length} | Chats: {dataManagement?.chats?.length}
+            </p>
           </AccordionDetails>
         </Accordion>
       </AccordionGroup>

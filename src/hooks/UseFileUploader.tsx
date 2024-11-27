@@ -16,11 +16,14 @@ export const UseFileUploader = (
   };
 
   const uploadFile = async (fileName?: string) => {
+    console.log('enters uploadFile')
     if (!file) return;
     if (!uploadcareKey.current || uploadcareKey.current == '') {
       console.error('ERROR - No uploadcare key. Upload cancelled');
       return;
     }
+
+    console.log('passes filter conditions')
 
     try {
       const result = await base(file, {
@@ -41,6 +44,7 @@ export const UseFileUploader = (
   }
 
   useEffect(() => {
+    console.log('useEffect runs')
     if (!autoUpload || !file) return;
     uploadFile();
 
