@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 import CircularProgress from '@mui/joy/CircularProgress/CircularProgress';
 import ghost from '../assets/img/ghost.png'
 
-// TODO Create database using mongoDB
+//* DONE Create database using mongoDB
 // TODO Add logs
 
 export const ChatScreen = () => {
