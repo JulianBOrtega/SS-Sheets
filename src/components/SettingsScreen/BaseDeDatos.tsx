@@ -39,7 +39,7 @@ export const BaseDeDatos = ({loading, info, restoreBackup, clearChat} : BaseDeDa
                 buttonColor='primary'
                 buttonAction={restoreBackup}
                 loading={loading}
-                disabled={!info}
+                disabled={!info || !info.id}
             />
         </div>
     )

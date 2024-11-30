@@ -28,7 +28,7 @@ export const UseBackup = (type: backupType, campaignId?: string, backupData?: an
         };
 
         fetch(`${url.current}backup/${type}/${campaignId}`, fetchOps)
-        .then(res => res.json()).then(data => setInfo(data))
+        .then(res => {console.log('received backup res', res); return res.json()}).then(data => {console.log('backup data', data); setInfo(data[0])})
         .catch(err => console.log('ERROR at fetching backupData for ' + type, err));
         setLoading(false);
     }, [campaignId]);
@@ -105,7 +105,7 @@ export const UseBackup = (type: backupType, campaignId?: string, backupData?: an
 
     const restoreBackup = async() => {
         if(!campaignId || loading) return;
-        else if (!info) {
+        else if (!info || !info.id) {
             console.error('No backup available');
             return;
         }
