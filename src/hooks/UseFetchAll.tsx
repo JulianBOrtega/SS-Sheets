@@ -18,7 +18,6 @@ export const UseFetchAll = (roomId?: string) => {
         try {
             console.log('refreshing global data...')
             const reqs = await Promise.all([
-                fetch(url.current + `campaigns/${roomId}`),
                 fetch(url.current + `characters/${roomId}`),
                 fetch(url.current + `chats/${roomId}`)
             ]);
@@ -26,16 +25,13 @@ export const UseFetchAll = (roomId?: string) => {
             const data = await Promise.all([
                 reqs[0].json(),
                 reqs[1].json(),
-                reqs[2].json(),
             ]);
 
-            setCampaign(data[0]);
-            setCharacters(data[1]);
-            setChats(data[2]);
+            setCharacters(data[0]);
+            setChats(data[1]);
             
-            console.log('campaigns', data[0]);
-            console.log('characters', data[1]);
-            console.log('chats', data[2]);
+            console.log('characters', data[0]);
+            console.log('chats', data[1]);
             console.log('global data refreshed.');
             console.log('');
         } catch (error) {
@@ -44,12 +40,7 @@ export const UseFetchAll = (roomId?: string) => {
     };
 
     const fetchCampaign = () => {
-        console.log('refetching campaign');
-
-        fetch(url.current + `campaigns/${roomIdRef.current}`)
-        .then(req => req.json())
-        .then(data => setCampaign(data))
-        .catch(err => console.log('ERROR at refetching campaigns', err));
+        console.log('no campaign endpoints, omitting...')
     };
     
     const fetchCharacters = () => {

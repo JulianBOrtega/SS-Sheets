@@ -19,13 +19,6 @@ export interface ICharacter {
     bonds: IBond[],
     tempArmor: number,
     imgPath?: string,
-
-    //? Move to Utility file
-    /* getArmor: () => number,
-    getMaxHp: () => number,
-    getMaxExp: () => number,
-    getMaxWeight: () => number, */
-
 }
 
 export interface IStats {
@@ -35,9 +28,6 @@ export interface IStats {
     int: number,
     wis: number,
     cha: number,
-    
-    //? Move to Utility file
-    /* getStatMod: (stat: 'STR' | 'DEX' | 'CON' | 'INT' | 'WIS' | 'CHA') => number, */
 }
 
 export interface ICharacterItem {
