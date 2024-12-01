@@ -11,7 +11,6 @@ import { getMaxExp, getMaxHp } from '../../utility/sheetCalc';
 import { SheetFieldSelector } from '../shared/SheetFieldSelector';
 import { getClass, getClassOptions } from '../../utility/hardcoded';
 import { isValidDiceRoll } from '../../utility/dice';
-import { CharacterImage } from './CharacterImage';
 import { useNavigate } from 'react-router-dom';
 import { SheetImage } from './SheetImage';
 
