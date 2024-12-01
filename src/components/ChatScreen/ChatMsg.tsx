@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { IChatMsg } from '../../interfaces/chat'
 import { IUser } from '../../interfaces/user'
 import './ChatMsg.css'
 import { ICharacter } from '../../interfaces/character'
 import { getSuccessColor, getSuccessLabel, getSuccessLevel } from '../../utility/dice'
 import { replaceAll } from '../../utility/stringUtilities';
+import defaultImg from '../../assets/img/no-chara-img.png'
 
 export interface ChatMsgProps {
     chatMsg: IChatMsg,
@@ -14,27 +15,38 @@ export interface ChatMsgProps {
 }
 
 export const ChatMsg = ({ chatMsg, brighterBg, user, characterList }: ChatMsgProps) => {
-
+    const character = useRef<ICharacter | undefined>(
+        characterList?.find(c => c.id == chatMsg.characterId)
+    );
     return characterList && user && ((!chatMsg.isWhisper) ||
         (chatMsg.isWhisper && user.role == 'GM')
         || (chatMsg.isWhisper && chatMsg.userId == user.id)) && (
             <>
                 {!chatMsg.rollResult ? (
                     <div className='chatMsg-container chatMsg-msg' style={{ background: brighterBg ? 'rgba(45, 45, 45, 0.75)' : 'rgba(30, 30, 30, 0.75)' }}>
-                        <div>
-                            <p className='chatMsg-character' style={{ color: chatMsg.isWhisper ? 'palevioletred' : undefined }}>
-                                {
-                                    characterList.find(
-                                        c => c.id == chatMsg.characterId
-                                    )?.name || 'Desconocido (PJ Eliminado?)'
-                                }
-                                {
-                                    chatMsg.isWhisper && ' (Sussuro a DM)'
-                                }
-                            </p>
-                            <p className='chatMsg-msgChat' style={{ color: chatMsg.isWhisper ? 'palevioletred' : undefined }}>
-                                {chatMsg.msg}
-                            </p>
+                        <div style={{display: 'flex', alignItems: 'center', gap: 10}}>
+                            <img src={
+                                character.current?.imgPath ? 
+                                character.current.imgPath : defaultImg
+                                } 
+                                alt="character-img"
+                                style={{height: 50, width: 50, borderRadius: 100}}
+                            />
+                            <div>
+                                <p className='chatMsg-character' style={{ color: chatMsg.isWhisper ? 'palevioletred' : undefined }}>
+                                    {
+                                        characterList.find(
+                                            c => c.id == chatMsg.characterId
+                                        )?.name || 'Desconocido (PJ Eliminado?)'
+                                    }
+                                    {
+                                        chatMsg.isWhisper && ' (Sussuro a DM)'
+                                    }
+                                </p>
+                                <p className='chatMsg-msgChat' style={{ color: chatMsg.isWhisper ? 'palevioletred' : undefined }}>
+                                    {chatMsg.msg}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 ) : (
@@ -46,20 +58,31 @@ export const ChatMsg = ({ chatMsg, brighterBg, user, characterList }: ChatMsgPro
                     }}>
                         <div className='chatMsg-roll'>
                             <div>
-                                <div className='chatMsg-character' style={{ color: chatMsg.isWhisper ? 'pink' : undefined }}>
-                                    {
-                                        characterList.find(
-                                            c => c.id == chatMsg.characterId
-                                        )?.name || 'Desconocido (PJ Eliminado?)'
-                                    }
+                                <div style={{display: 'flex', alignItems: 'center', gap: 10}}>
+                                    <img src={
+                                        character.current?.imgPath ? 
+                                        character.current.imgPath : defaultImg
+                                        } 
+                                        alt="character-img"
+                                        style={{height: 50, width: 50, borderRadius: 100}}
+                                    />
+                                    <div>
+                                        <div className='chatMsg-character' style={{ color: chatMsg.isWhisper ? 'pink' : undefined }}>
+                                            {
+                                                characterList.find(
+                                                    c => c.id == chatMsg.characterId
+                                                )?.name || 'Desconocido (PJ Eliminado?)'
+                                            }
 
-                                    {
-                                        chatMsg.isWhisper && '(Sussuro a DM)'
-                                    }
+                                            {
+                                                chatMsg.isWhisper && '(Sussuro a DM)'
+                                            }
+                                        </div>
+                                        <p className='chatMsg-msgChat chatMsg-msgRoll'>
+                                            {chatMsg.msg}
+                                        </p>
+                                    </div>
                                 </div>
-                                <p className='chatMsg-msgChat chatMsg-msgRoll'>
-                                    {chatMsg.msg}
-                                </p>
                                 <div className='chatMsg-rollResultContainer'>
                                     <div className='chatMsg-rollResultCard'>
                                         <p className='chatMsg-rollResultCalc'>

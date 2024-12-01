@@ -8,6 +8,11 @@ import CircularProgress from '@mui/joy/CircularProgress/CircularProgress';
 import ghost from '../assets/img/ghost.png'
 
 //* DONE Create database using mongoDB
+//* DONE Add character images to navbar
+//* DONE Add character images to chat
+// TODO Fix bug of sending empty chat as 'Lanzó dados'
+// TODO Fix bug of changing characters when you're using the 2nd
+// TODO Fix bug of not allowing to upload a 2nd or 3rd image without refreshing
 // TODO Add logs
 
 export const ChatScreen = () => {

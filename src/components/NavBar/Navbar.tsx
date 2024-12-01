@@ -34,8 +34,8 @@ export const Navbar = () => {
               }}
             > 
               <Avatar 
-                src={defaultImg} 
-                alt='defaultImg' 
+                src={c.imgPath ? c.imgPath : defaultImg} 
+                alt='character-img' 
                 className='navbarAvatar'
               />
             </Link>
