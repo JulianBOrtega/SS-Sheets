@@ -49,14 +49,15 @@ export const Navbar = () => {
           <img src={settingsIcon} alt="settings-icon" 
             className='navbarSettingsIcon'
             width={25} height={25} 
+            style={{marginBottom: 10}}
           />
         </Link>
-        <Link className="navLink" to="/Logs">
+        {/* <Link className="navLink" to="/Logs">
           <img src={logsIcon} alt="logs-icon" 
             className='navbarLogsIcon'
             width={25} height={25} 
           />
-        </Link>
+        </Link> */}
       </div>
     </nav>
   )

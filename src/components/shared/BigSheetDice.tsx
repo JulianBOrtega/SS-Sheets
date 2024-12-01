@@ -3,6 +3,7 @@ import { getStatModifier } from '../../utility/sheetCalc'
 import Input from '@mui/joy/Input'
 import { DiceRoll } from '@dice-roller/rpg-dice-roller'
 import './BigSheetDice.css'
+import { useNavigate } from 'react-router-dom'
 export interface BigSheetDiceProps {
     editable: boolean,
     value: number,
@@ -12,10 +13,12 @@ export interface BigSheetDiceProps {
 }
 
 export const BigSheetDice = ({ editable, value, label, onChange, sendRoll }: BigSheetDiceProps) => {
+    const nav = useNavigate();
 
     const rollStat = () => {
         const dice = '2d10+' + getStatModifier(value);
         sendRoll(new DiceRoll(dice));
+        nav('/');
     }
 
     return (

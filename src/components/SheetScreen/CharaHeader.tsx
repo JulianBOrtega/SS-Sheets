@@ -12,6 +12,8 @@ import { SheetFieldSelector } from '../shared/SheetFieldSelector';
 import { getClass, getClassOptions } from '../../utility/hardcoded';
 import { isValidDiceRoll } from '../../utility/dice';
 import { CharacterImage } from './CharacterImage';
+import { useNavigate } from 'react-router-dom';
+import { SheetImage } from './SheetImage';
 
 export interface CharaHeaderProps {
   data: ICharacter,
@@ -23,6 +25,8 @@ export interface CharaHeaderProps {
 }
 
 export const CharaHeader = ({data, notifyChange, editable, setEditable, sendStatRoll, saveChanges}: CharaHeaderProps) => {
+  const nav = useNavigate();
+
   const handleEdit = () => {
     setEditable(!editable);
 
@@ -53,12 +57,13 @@ export const CharaHeader = ({data, notifyChange, editable, setEditable, sendStat
     if(!data.damageDice || !data.damageDice.includes('d') || data.damageDice[data.damageDice.length - 1] == 'd') return;
 
     const roll = new DiceRoll(data.damageDice);
-    sendStatRoll(`${data.name} causa daño!`, roll.toString());
+    sendStatRoll(`Causa daño!`, roll.toString());
+    nav('/');
   }
   return (
     <div className="charaHeader">
       {/* Character Image */}
-      <CharacterImage character={data} saveChanges={saveChanges}/>
+      <SheetImage character={data} saveChanges={saveChanges}/>
 
       <div className="charaHeaderColumn">
         {/* Name */}
@@ -114,7 +119,7 @@ export const CharaHeader = ({data, notifyChange, editable, setEditable, sendStat
           </SheetField>
         </div>
 
-        {/* Bars & Circles */}
+        {/* Bars, Armor & Damage Dice */}
         <div className="charaHeaderColumnBottom">
           {/* Bars */}
           <div className="charaHeaderBars">
@@ -140,7 +145,7 @@ export const CharaHeader = ({data, notifyChange, editable, setEditable, sendStat
             />
           </div>
 
-          {/* Circles */}
+          {/* Armor & Damage Dice */}
           <SheetField
             editable={editable}
             onChange={(value) => handleBlur('tempArmor', +value)}

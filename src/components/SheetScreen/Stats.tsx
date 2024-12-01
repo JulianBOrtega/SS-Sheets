@@ -24,7 +24,7 @@ export const Stats = ({data, editable, notifyChange, sendStatRoll}: StatsProps) 
   }
 
   const handleRoll = (roll: DiceRoll, stat: string) => {
-    const msg = `${data.name} usó ${stat}`;
+    const msg = `Usa ${stat}`;
     const successLevel = getSuccessLevel(roll);
 
     sendStatRoll(msg, roll.output, successLevel)

@@ -6,8 +6,6 @@ import 'react-image-crop/dist/ReactCrop.css'
 import { Button, Modal, ModalClose, ModalDialog, Slider, Typography } from '@mui/joy';
 import { UseFileUploader } from '../../hooks/UseFileUploader';
 
-
-
 type Props = {
     character: ICharacter,
     saveChanges: () => void
@@ -42,10 +40,12 @@ export const CharacterImage = ({ character, saveChanges }: Props) => {
     const [scale, setScale] = useState<number>();
     const { setFile } = UseFileUploader(true, onCropSuccess);
     const imgRef = useRef<HTMLImageElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
     const publicKey = useRef<string>(import.meta.env.VITE_UPLOADCARE_KEY);
     const secretKey = useRef<string>(import.meta.env.VITE_UPLOADCARE_SECRET_KEY);
 
     const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setImgSrc('');
         if(e.target.files && e.target.files.length == 1) {
             setCrop(undefined);
             const reader = new FileReader()
@@ -59,10 +59,11 @@ export const CharacterImage = ({ character, saveChanges }: Props) => {
     const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
         const img = e.currentTarget;
         const { width, height } = img;
-    
-        const size = Math.min(width, height); 
-        const x = (width - size) / 2; 
-        const y = (height - size) / 2; 
+        const viewportSize = 200;
+
+        const size = Math.min(width, height, viewportSize); 
+        const x = 0; 
+        const y = 0; 
     
         setCrop({
             unit: 'px', 
@@ -124,6 +125,23 @@ export const CharacterImage = ({ character, saveChanges }: Props) => {
         );
     }
 
+    const onModalClose = () => {
+        setImgSrc(''); 
+
+        if(inputRef.current) {
+            inputRef.current.files = null  
+            inputRef.current.value = '';
+        }
+    }
+
+    const handleSliderChange = (e: Event, value: number | number[]) => {
+        if (typeof value === 'number' && imgRef.current && crop) {
+            const newCrop = updateCropCenter(crop, imgRef.current, value);
+            setCrop(newCrop);
+            setScale(value);
+        }
+    }
+
     function onCropSuccess(fileId: string) {
         const url = character.imgPath;
         const match = url?.match(/ucarecdn\.com\/([a-zA-Z0-9\-]+)/);
@@ -152,8 +170,35 @@ export const CharacterImage = ({ character, saveChanges }: Props) => {
         saveChanges();
     }
 
+    function updateCropCenter(crop: Crop, imgRef: HTMLImageElement, scale: number): Crop {
+        const imgWidth = imgRef.naturalWidth;
+        const imgHeight = imgRef.naturalHeight;
+    
+        const scaledWidth = imgWidth * scale;
+        const scaledHeight = imgHeight * scale;
+    
+        const cropCenterX = crop.x + crop.width / 2;
+        const cropCenterY = crop.y + crop.height / 2;
+    
+        const newWidth = crop.width;
+        const newHeight = crop.height;
+        const newX = cropCenterX - newWidth / 2;
+        const newY = cropCenterY - newHeight / 2;
+    
+        return {
+            unit: 'px',
+            x: Math.max(0, Math.min(newX, scaledWidth - newWidth)), // Ensure crop stays within bounds
+            y: Math.max(0, Math.min(newY, scaledHeight - newHeight)),
+            width: newWidth,
+            height: newHeight,
+        };
+    }
+
     return (
         <div>
+            <div style={{position: 'absolute'}}>
+                imgsrc {imgSrc}
+            </div>
             <label htmlFor="charaImg" style={{ cursor: 'pointer' }}>
                 {character.imgPath ? (
                     <img src={character.imgPath} alt={'character-img'} width={120} height={120} />
@@ -167,22 +212,21 @@ export const CharacterImage = ({ character, saveChanges }: Props) => {
                     style={{ display: 'none' }}
                     accept=".png, .jpeg, .jpg"
                     onChange={onSelectFile}
+                    ref={inputRef}
                 />
 
                 <Modal open={!!imgSrc}>
-                <ModalDialog>
-                    <ModalClose onClick={() => setImgSrc('')} />
+                <ModalDialog style={{height: '80%', width: '50%'}}>
+                    <ModalClose onClick={onModalClose}/>
                     <Typography>Recortar</Typography>
                     <ReactCrop
                         crop={crop}
                         onChange={(c, percentCrop) => setCrop(percentCrop)}
                         onComplete={(c) => setCompletedCrop(c)}
                         aspect={1}
-                        minHeight={0}
-                        maxHeight={200}
                         style={{
-                            height: 250, /* maxHeight: 250, */
-                            width: 250, /* maxWidth: 250, */
+                            width: '100%',
+                            height: '70%',
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
@@ -198,14 +242,20 @@ export const CharacterImage = ({ character, saveChanges }: Props) => {
                     </ReactCrop>
 
                     <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                        <Slider 
-                            value={scale} 
-                            max={2} 
-                            min={0}
-                            step={0.01}
-                            onChange={(e, value) => typeof value == 'number' && setScale(value)} 
-                            style={{width: 100}}
-                        />
+                        <div style={{
+                            display: 'flex', alignItems: 'center', gap: 10
+                        }}>
+                            <p style={{fontSize: 12}}>Zoom</p>
+                            <Slider 
+                                size='sm'
+                                value={scale} 
+                                max={2} 
+                                min={0.5}
+                                step={0.01}
+                                onChange={handleSliderChange} 
+                                style={{width: 100}}
+                            />
+                        </div>
                         <Button size={'sm'} color={'primary'} onClick={onAccept}>Aceptar</Button>
                     </div>
                 </ModalDialog>

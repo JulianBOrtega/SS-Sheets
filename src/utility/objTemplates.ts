@@ -5,7 +5,7 @@ import { SuccessLevel } from './dice';
 export const getDefaultCharacter = (userId: string): ICharacter => ({
     id: null,
     userId: userId,
-    name: 'Introducir nombre',
+    name: 'Sin nombre',
     race: '',
     classId: 1,
     level: 1,

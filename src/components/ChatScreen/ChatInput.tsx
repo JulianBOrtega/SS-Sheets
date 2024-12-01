@@ -23,12 +23,12 @@ import './ChatInput.css';
 
 export interface ChatInputProps {
     availableCharas: ICharacter[],
-    character?: ICharacter,
-    setCharacter: (value: ICharacter | undefined) => void
+    /* character?: ICharacter,
+    setCharacter: (value: ICharacter | undefined) => void */
 }
 
-export const ChatInput = ({availableCharas, character, setCharacter}: ChatInputProps) => {
-    const { loading, dataManagement, broadcast } = useContext<IDataContext>(DataContext);
+export const ChatInput = ({availableCharas, /* character, setCharacter */}: ChatInputProps) => {
+    const { loading, dataManagement, broadcast, speakingAs, setSpeakingAs } = useContext<IDataContext>(DataContext);
     const [message, setMessage] = useState<string>('');
     const [whisper, setWhisper] = useState(false);
     
@@ -44,14 +44,14 @@ export const ChatInput = ({availableCharas, character, setCharacter}: ChatInputP
     const diceTimer = useRef<NodeJS.Timeout>();
 
     const sendMessage = (e?: React.MouseEvent<HTMLAnchorElement, MouseEvent>, roll?: string) => {
-        if(loading || !dataManagement || !dataManagement.user || !character || !character.id) return;
+        if(loading || !dataManagement || !dataManagement.user || dataManagement.user.role != 'GM' && (!speakingAs || !speakingAs.id) || (message.trim() == '' && !roll)) return;
 
         if(e) e.stopPropagation();
         
         const text = message.trim() == '' ? 'Lanza dados' : message;
         const campaign = dataManagement.roomId;
         const userId = dataManagement.user.id;
-        const charaId = character.id;
+        const charaId = speakingAs && speakingAs.id ? speakingAs.id : 'DM';
         const msg = generateChatMsg(userId, charaId, text, whisper, roll);
         const fetchOps = {
             method: 'POST', body: JSON.stringify(msg),
@@ -147,11 +147,17 @@ export const ChatInput = ({availableCharas, character, setCharacter}: ChatInputP
                         loading || !dataManagement || !dataManagement.characters
                         || !dataManagement.user
                     }
-                    onChange={(e, chara) => chara ? setCharacter(chara) : setCharacter(undefined)}
-                    defaultValue={character}
+                    onChange={(e, chara) => setSpeakingAs(chara)}
+                    value={speakingAs}
                     placeholder='Hablar como...'
                     style={{ width: 200}}
                 >
+                    {
+                        dataManagement?.user?.role == 'GM' &&
+                        <Option value={null}>
+                                DM
+                        </Option>
+                    }
                     {
                         availableCharas.map((c, i) => 
                             <Option key={i + '-' + c.name} value={c}>
@@ -161,7 +167,7 @@ export const ChatInput = ({availableCharas, character, setCharacter}: ChatInputP
                     }
                 </Select>
 
-                { !character ? (
+                { !speakingAs && dataManagement?.user?.role != 'GM' ? (
                     <div style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -251,7 +257,7 @@ export const ChatInput = ({availableCharas, character, setCharacter}: ChatInputP
                 <Button 
                     variant="solid"
                     onClick={sendMessage}
-                    disabled={loading || !dataManagement || !dataManagement.user || !character || !character.id || message.trim().length == 0}
+                    disabled={loading || !dataManagement || !dataManagement.user || (dataManagement.user.role != 'GM' && (!speakingAs || !speakingAs.id)) || message.trim().length == 0}
                     className='chatSendButton'
                 >
                     Enviar

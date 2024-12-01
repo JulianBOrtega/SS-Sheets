@@ -25,19 +25,22 @@ export const ChatMsg = ({ chatMsg, brighterBg, user, characterList }: ChatMsgPro
                 {!chatMsg.rollResult ? (
                     <div className='chatMsg-container chatMsg-msg' style={{ background: brighterBg ? 'rgba(45, 45, 45, 0.75)' : 'rgba(30, 30, 30, 0.75)' }}>
                         <div style={{display: 'flex', alignItems: 'center', gap: 10}}>
-                            <img src={
-                                character.current?.imgPath ? 
-                                character.current.imgPath : defaultImg
-                                } 
-                                alt="character-img"
-                                style={{height: 50, width: 50, borderRadius: 100}}
-                            />
+                            { chatMsg.characterId != 'DM' &&
+                                <img src={
+                                    character.current?.imgPath ? 
+                                    character.current.imgPath : defaultImg
+                                    } 
+                                    alt="character-img"
+                                    style={{height: 50, width: 50, borderRadius: 100}}
+                                />
+                            }
                             <div>
-                                <p className='chatMsg-character' style={{ color: chatMsg.isWhisper ? 'palevioletred' : undefined }}>
+                                <p className='chatMsg-character' style={{ 
+                                    color: chatMsg.isWhisper ? 'palevioletred' : chatMsg.characterId == 'DM' ? 'DarkOrchid' : undefined,
+
+                                }}>
                                     {
-                                        characterList.find(
-                                            c => c.id == chatMsg.characterId
-                                        )?.name || 'Desconocido (PJ Eliminado?)'
+                                        character.current?.name ? character.current.name : chatMsg.characterId == 'DM' ? 'DM' : 'Desconocido (PJ Eliminado?)'
                                     }
                                     {
                                         chatMsg.isWhisper && ' (Sussuro a DM)'
@@ -59,26 +62,30 @@ export const ChatMsg = ({ chatMsg, brighterBg, user, characterList }: ChatMsgPro
                         <div className='chatMsg-roll'>
                             <div>
                                 <div style={{display: 'flex', alignItems: 'center', gap: 10}}>
-                                    <img src={
-                                        character.current?.imgPath ? 
-                                        character.current.imgPath : defaultImg
-                                        } 
-                                        alt="character-img"
-                                        style={{height: 50, width: 50, borderRadius: 100}}
-                                    />
+                                    { chatMsg.characterId != 'DM' &&
+                                        <img src={
+                                            character.current?.imgPath ? 
+                                            character.current.imgPath : defaultImg
+                                            } 
+                                            alt="character-img"
+                                            style={{height: 50, width: 50, borderRadius: 100}}
+                                        />
+                                    }
                                     <div>
-                                        <div className='chatMsg-character' style={{ color: chatMsg.isWhisper ? 'pink' : undefined }}>
+                                        <div className='chatMsg-character' style={{ 
+                                            color: chatMsg.isWhisper ? 'palevioletred' : chatMsg.characterId == 'DM' ? 'DarkOrchid' : undefined
+                                        }}>
                                             {
-                                                characterList.find(
-                                                    c => c.id == chatMsg.characterId
-                                                )?.name || 'Desconocido (PJ Eliminado?)'
+                                                character.current?.name ? character.current.name : chatMsg.characterId == 'DM' ? 'DM' : 'Desconocido (PJ Eliminado?)'
                                             }
 
                                             {
-                                                chatMsg.isWhisper && '(Sussuro a DM)'
+                                                chatMsg.isWhisper && ' (Sussuro a DM)'
                                             }
                                         </div>
-                                        <p className='chatMsg-msgChat chatMsg-msgRoll'>
+                                        <p className='chatMsg-msgChat chatMsg-msgRoll' style={{
+                                            color: chatMsg.isWhisper ? 'palevioletred' : chatMsg.characterId == 'DM' ? 'DarkOrchid' : undefined
+                                        }}>
                                             {chatMsg.msg}
                                         </p>
                                     </div>

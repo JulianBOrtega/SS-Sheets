@@ -5,10 +5,12 @@ import Button from "@mui/joy/Button";
 import add1Icon from '../../assets/img/add1-icon.png'
 import add2Icon from '../../assets/img/add2-icon.png'
 import './AddSheetButton.css';
+import { useNavigate } from "react-router-dom";
 
 export const AddSheetButton = () => {
     const { loading, dataManagement, broadcast } = useContext<IDataContext>(DataContext);
     const url = useRef<string>(import.meta.env.VITE_API_URL);
+    const nav = useNavigate();
     
     const addSheet = () => {
         if(loading || !dataManagement || !dataManagement.user) return;
@@ -24,7 +26,10 @@ export const AddSheetButton = () => {
         };
         
         fetch(`${url.current}characters/${campaign}`, fetchOps)
-        .then(res => res.json()).then(data => broadcast.update('characters'))
+        .then(res => res.json()).then(data => {
+            broadcast.update('characters');
+            nav(`Sheets/${data.id}`);
+        })
         .catch(err => console.log('ERROR at adding new sheet', err));
     }
 

@@ -10,18 +10,17 @@ import ghost from '../assets/img/ghost.png'
 //* DONE Create database using mongoDB
 //* DONE Add character images to navbar
 //* DONE Add character images to chat
-// TODO Fix bug of sending empty chat as 'Lanzó dados'
-// TODO Fix bug of changing characters when you're using the 2nd
+//* DONE Fix bug of sending empty chat as 'Lanzó dados'
+//* DONE Fix bug of changing characters when you're using the 2nd
+//* DONE Allow DM to send messages without a sheet
 // TODO Fix bug of not allowing to upload a 2nd or 3rd image without refreshing
-// TODO Add logs
 
 export const ChatScreen = () => {
-  const { loading, dataManagement } = useContext<IDataContext>(DataContext);
+  const { loading, dataManagement, speakingAs, setSpeakingAs } = useContext<IDataContext>(DataContext);
   const location = useLocation();
   
   const [ready, setReady] = useState(false);
   const [availableCharas, setAvailableCharas] = useState<ICharacter[]>([]);
-  const [character, setCharacter] = useState<ICharacter>();
   const chatRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -54,8 +53,9 @@ export const ChatScreen = () => {
     }) || [];
 
     setAvailableCharas(result);
-    if(result.length > 0) {
-        setCharacter(result[0]);
+    if(result.length > 0 && !speakingAs && dataManagement.user.role != 'GM') {
+        setSpeakingAs(result[0]);
+        console.log('Sets default');
     }
 
     setReady(true);
@@ -102,8 +102,6 @@ export const ChatScreen = () => {
       
       <ChatInput 
         availableCharas={availableCharas}
-        character={character}
-        setCharacter={setCharacter}
       />
     </div>
   ) : (
