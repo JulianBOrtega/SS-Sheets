@@ -13,7 +13,8 @@ import ghost from '../assets/img/ghost.png'
 //* DONE Fix bug of sending empty chat as 'Lanzó dados'
 //* DONE Fix bug of changing characters when you're using the 2nd
 //* DONE Allow DM to send messages without a sheet
-// TODO Fix bug of not allowing to upload a 2nd or 3rd image without refreshing
+//* DONE Fix bug of not allowing to upload a 2nd or 3rd image without refreshing
+//* DONE Remake crop image functionality
 
 export const ChatScreen = () => {
   const { loading, dataManagement, speakingAs, setSpeakingAs } = useContext<IDataContext>(DataContext);

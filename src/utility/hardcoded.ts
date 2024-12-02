@@ -47,6 +47,12 @@ export const sheetClasses = {
         baseHP: 4,
         damageDice: '1d4',
     },
+    barbarian: {
+        id: 9,
+        name: 'Barbaro',
+        baseHP: 8,
+        damageDice: '1d10'
+    }
 }
 
 export const getClass = (classId: number) => {
